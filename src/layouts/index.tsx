@@ -34,7 +34,7 @@ const Layout = ({ children }: PropsWithChildren) => {
 	const [open, setOpen] = useState(false);
 	const { data: session } = useSession();
 	const router = useRouter();
-	if (!session && router.pathname == "/login" && router.pathname !== "/register") {
+	if (!session && router.pathname !== "/login" && router.pathname !== "/register") {
 		router.push("/login");
 	}
 	return (
