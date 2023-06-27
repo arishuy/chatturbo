@@ -21,6 +21,9 @@ function App() {
     await signOut({ redirect: false });
     router.push("/login");
   };
+  if (!session) {
+    router.push("/login");
+  }
   const { collapseSidebar } = useProSidebar();
   useEffect(() => {
     collapseSidebar();

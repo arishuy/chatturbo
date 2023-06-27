@@ -6,7 +6,6 @@ import { styled } from "@mui/material/styles";
 import React, { PropsWithChildren, ReactNode } from "react";
 import SideBar from "./Sidebar";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 
 // ----------------------------------------------------------------------
 
@@ -32,11 +31,9 @@ const Main = styled("div")(({ theme }) => ({
 
 const Layout = ({ children }: PropsWithChildren) => {
 	const [open, setOpen] = useState(false);
-	const { data: session } = useSession();
+
 	const router = useRouter();
-	if (!session) {
-		router.push("/login");
-	}
+
 	return (
 		<StyledRoot>
 			<SideBar />
