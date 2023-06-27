@@ -22,7 +22,7 @@ export async function middleware(req: NextRequest) {
 			return NextResponse.redirect(url);
 		}
 		else {
-			return NextResponse.next();
+			return res;
 		}
 	}
 	return res;
