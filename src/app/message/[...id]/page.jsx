@@ -44,6 +44,8 @@ const Page = () => {
     });
   }, []);
   return (
+    <>
+    <title>Message</title>
     <Grid
       container
       sx={{
@@ -53,7 +55,7 @@ const Page = () => {
         overflowX: "hidden",
         overflowY: "hidden",
       }}
-    >
+      >
       <Grid
         item
         xs={12}
@@ -103,11 +105,11 @@ const Page = () => {
               <Avatar
                 alt="Agnes Walker"
                 src="https://demos.themeselection.com/marketplace/materio-mui-react-nextjs-admin-template/demo-1/images/avatars/5.png"
-              />
+                />
               <Avatar
                 alt="Trevor Henderson"
                 src="https://demos.themeselection.com/marketplace/materio-mui-react-nextjs-admin-template/demo-1/images/avatars/6.png"
-              />
+                />
             </AvatarGroup>)
           }
 
@@ -122,6 +124,7 @@ const Page = () => {
         <GroupInfo groupInfo={groupInfo} isGroup={isGroup.current} />
       </Grid>
     </Grid>
+          </>
   );
 };
 
