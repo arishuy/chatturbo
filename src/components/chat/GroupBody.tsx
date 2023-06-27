@@ -19,6 +19,7 @@ const GroupBody = ({ id }: GroupBodyProps) => {
   const { data: session } = useSession();
   const [initialMessages, setInitialMessages] = React.useState([]);
   const [message, setMessage] = React.useState("");
+  const bottomRef = useRef<HTMLDivElement>(null);
   async function getAllMessages() {
     const messages = await fetch(`/api/group/message/${id}`, {
       method: "GET",
@@ -39,10 +40,13 @@ const GroupBody = ({ id }: GroupBodyProps) => {
   useEffect(() => {
     getAllMessages().then((res) => {
       setInitialMessages(res);
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
     })
   }, []);
   useEffect(() => {
     pusherClient.subscribe(id);
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+
     const messageHandler = (message: any) => {
       seenMessages();
       setInitialMessages((current: any) => {
@@ -51,6 +55,7 @@ const GroupBody = ({ id }: GroupBodyProps) => {
         }
         return [...current, message];
       });
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
     };
     const updatedMessageHandler = (newMessage: any) => {
       setInitialMessages((current : any) =>
@@ -61,9 +66,11 @@ const GroupBody = ({ id }: GroupBodyProps) => {
           return currentMessage;
         })
       );
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
     };
     pusherClient.bind("messages:new", messageHandler);
     pusherClient.bind("messages:update", updatedMessageHandler);
+
 
     return () => {
       pusherClient.unsubscribe(id);
@@ -103,6 +110,7 @@ const GroupBody = ({ id }: GroupBodyProps) => {
             seenBy={message.seenBy}
           />
         ))}
+        <div ref={bottomRef}></div>
       </Box>
       <Box
         sx={{
