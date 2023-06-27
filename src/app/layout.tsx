@@ -7,7 +7,6 @@ import Layout from '@/layouts';
 import { SessionProvider } from "next-auth/react";
 import { usePathname } from 'next/navigation'
 import { ProSidebarProvider } from "react-pro-sidebar";
-import Head from 'next/head';
 
 
 
@@ -17,11 +16,6 @@ const poppins = Poppins({
   display: "swap",
 });
 
-
-export const metadata = {
-  title: 'Chat Turbo',
-  description: 'Chat Turbo is a chat application built with Next.js and Socket.io',
-}
 
 export default function RootLayout({
   children, session
@@ -33,12 +27,6 @@ export default function RootLayout({
   if (pathname === '/login' || pathname === '/register') {
     return (
       <html lang="en">
-        <Head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <meta name="description" content={metadata.description} />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content={metadata.title} />
-        </Head>
         <body className={poppins.className}>
           <SessionProvider session={session}>
             <ThemeProvider>
@@ -51,12 +39,6 @@ export default function RootLayout({
   } else {
     return (
       <html lang="en">
-        <Head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <meta name="description" content={metadata.description} />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content={metadata.title} />
-        </Head>
         <body className={poppins.className}>
           <SessionProvider session={session}>
             <ThemeProvider>
