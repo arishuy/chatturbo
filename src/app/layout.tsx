@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import MessageCard from './MessageCard'
 import { useSession } from 'next-auth/react';
@@ -36,7 +37,7 @@ const GroupBody = ({ id }: GroupBodyProps) => {
     return data;
   }
   const scrollToMenu = (ref: any) => {
-    setImmediate(() => ref.current.scrollIntoView({ inline: "center", }));
+    setImmediate(() => ref.current.scrollIntoView({behavior: "smooth", inline: "center", }));
 };
   useEffect(() => {
     seenMessages();
