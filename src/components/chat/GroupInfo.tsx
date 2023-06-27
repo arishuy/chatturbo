@@ -1,6 +1,13 @@
-import React from 'react'
-import { Box, Stack, Avatar, Typography, Divider, ListItem } from '@mui/material'
-import { useSession } from 'next-auth/react'
+import React from "react";
+import {
+  Box,
+  Stack,
+  Avatar,
+  Typography,
+  Divider,
+  ListItem,
+} from "@mui/material";
+import { useSession } from "next-auth/react";
 export type GroupInfoProps = {
   _id: string;
   name: string;
@@ -15,7 +22,10 @@ export type GroupInfoProps = {
   createdAt: Date;
   updatedAt: Date;
 };
-const GroupInfo = ({ groupInfo, isGroup }: {
+const GroupInfo = ({
+  groupInfo,
+  isGroup,
+}: {
   groupInfo: GroupInfoProps;
   isGroup: boolean;
 }) => {
@@ -40,34 +50,51 @@ const GroupInfo = ({ groupInfo, isGroup }: {
                 alt="Remy Sharp"
                 src={groupInfo?.avatar}
               />
-              <Typography variant="h6">
-                {groupInfo?.name}
-              </Typography>
-              <Typography sx={{ opacity: "0.5", fontSize: "14px" }} variant="h6">
+              <Typography variant="h6">{groupInfo?.name}</Typography>
+              <Typography
+                sx={{ opacity: "0.5", fontSize: "14px" }}
+                variant="h6"
+              >
                 {groupInfo?.members?.length} members
               </Typography>
             </>
-          )
-            : (
-              <>
-                <Avatar
-                  sx={{
-                    width: "60px",
-                    height: "60px",
-                  }}
-                  alt="Remy Sharp"
-                  src={groupInfo?.members?.filter((member) => member._id !== session?.user?._doc._id)[0]?.avatar}
-                />
-                <Typography variant="h6">
-                  {groupInfo?.members?.filter((member) => member._id !== session?.user?._doc._id)[0]?.name + " " + groupInfo?.members?.filter((member) => member._id !== session?.user?._doc._id)[0]?.surname}
-                </Typography>
-                <Typography sx={{ opacity: "0.5", fontSize: "14px" }} variant="h6">
-                  {groupInfo?.members?.filter((member) => member._id !== session?.user?._doc._id)[0]?.quote}
-                </Typography>
-              </>
-            )
-          }
-
+          ) : (
+            <>
+              <Avatar
+                sx={{
+                  width: "60px",
+                  height: "60px",
+                }}
+                alt="Remy Sharp"
+                src={
+                  groupInfo?.members?.filter(
+                    (member) => member._id !== session?.user?._doc._id
+                  )[0]?.avatar
+                }
+              />
+              <Typography variant="h6">
+                {groupInfo
+                  ? groupInfo?.members?.filter(
+                      (member) => member._id !== session?.user?._doc._id
+                    )[0]?.name +
+                    " " +
+                    groupInfo?.members?.filter(
+                      (member) => member._id !== session?.user?._doc._id
+                    )[0]?.surname
+                  : "Loading..."}
+              </Typography>
+              <Typography
+                sx={{ opacity: "0.5", fontSize: "14px" }}
+                variant="h6"
+              >
+                {groupInfo
+                  ? groupInfo?.members?.filter(
+                      (member) => member._id !== session?.user?._doc._id
+                    )[0]?.quote
+                  : "Loading..."}
+              </Typography>
+            </>
+          )}
         </Stack>
       </Box>
       <Divider />
@@ -88,7 +115,7 @@ const GroupInfo = ({ groupInfo, isGroup }: {
         </ListItem>
       </Box>
     </>
-  )
-}
+  );
+};
 
-export default GroupInfo
+export default GroupInfo;

@@ -9,6 +9,7 @@ import { pusherClient } from '@/libs/pusher';
 import { find } from 'lodash'
 import MessageInput from './MessageInput';
 import { setImmediate } from 'timers';
+import TypingIndicator from './TypingIndicator';
 
 
 
@@ -18,6 +19,7 @@ interface GroupBodyProps {
 
 const GroupBody = ({ id }: GroupBodyProps) => {
   const { data: session } = useSession();
+  const [peopleTyping, setPeopleTyping] = React.useState([] as any);
   const [initialMessages, setInitialMessages] = React.useState([]);
   const [message, setMessage] = React.useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -51,6 +53,8 @@ const GroupBody = ({ id }: GroupBodyProps) => {
     pusherClient.subscribe(id);
     scrollToMenu(bottomRef);
 
+    let clearInterval = 900; //0.9 seconds
+     let clearTimerId: NodeJS.Timeout | undefined;
     const messageHandler = (message: any) => {
       seenMessages();
       setInitialMessages((current: any) => {
@@ -72,16 +76,43 @@ const GroupBody = ({ id }: GroupBodyProps) => {
       );
       scrollToMenu(bottomRef);
     };
+    const isUserTypingHandler = (user: any) => {
+      console.log(user);
+       if (user._id === session?.user._doc._id) {
+         return;
+       }
+      setPeopleTyping((current: any) => {
+        if (user._id === session?.user._doc._id) {
+          return current;
+        }
+       if (current.some((u: any) => u._id === user._id)) {
+         return current;
+        }
+        return [...current, user];
+      });
+      clearTimeout(clearTimerId); // Clear the previous timer
+
+      clearTimerId = setTimeout(() => {
+        // Clear the "user is typing" message
+        setPeopleTyping((current: any) =>
+          current.filter((u: any) => u._id !== user._id)
+        );
+      }, 1500); // 0.9 seconds
+    }
     pusherClient.bind("messages:new", messageHandler);
     pusherClient.bind("messages:update", updatedMessageHandler);
+    pusherClient.bind("user:typing", isUserTypingHandler);
 
 
     return () => {
       pusherClient.unsubscribe(id);
       pusherClient.unbind("messages:new", messageHandler);
       pusherClient.unbind("messages:update", updatedMessageHandler);
+      pusherClient.unbind("user:typing", isUserTypingHandler);
     }
   }, [id])
+  
+  console.log(peopleTyping);
 
   return (
     <>
@@ -89,31 +120,44 @@ const GroupBody = ({ id }: GroupBodyProps) => {
         sx={{
           height: "80vh",
           overflowY: "auto",
-          overflowX: "hidden"
+          overflowX: "hidden",
         }}
       >
-        {initialMessages.map((message: any) => (
-          <MessageCard
-            key={message._id}
-            avatar={
-              message.sender._id === session?.user._doc._id
-                ? ""
-                : message.sender.avatar
-            }
-            title={
-              message.sender._id === session?.user._doc._id
-                ? ""
-                : message.sender.name + " " + message.sender.surname
-            }
-            position={
-              message.sender._id === session?.user._doc._id ? "right" : "left"
-            }
-            text={message.content}
-            date={new Date(message.createdAt).toLocaleString()}
-            type={message.type ? message.type : "text"}
-            seenBy={message.seenBy}
-          />
-        ))}
+        <Box>
+          {initialMessages.map((message: any) => (
+            <MessageCard
+              key={message._id}
+              avatar={
+                message.sender._id === session?.user._doc._id
+                  ? ""
+                  : message.sender.avatar
+              }
+              title={
+                message.sender._id === session?.user._doc._id
+                  ? ""
+                  : message.sender.name + " " + message.sender.surname
+              }
+              position={
+                message.sender._id === session?.user._doc._id ? "right" : "left"
+              }
+              text={message.content}
+              date={new Date(message.createdAt).toLocaleString()}
+              type={message.type ? message.type : "text"}
+              seenBy={message.seenBy}
+            />
+          ))}
+        </Box>
+
+        <Box>
+          {peopleTyping.map((person: any) => (
+            <TypingIndicator
+              key={person._id}
+              name={person.name}
+              surname={person.surname}
+              avatar={person.avatar}
+            />
+          ))}
+        </Box>
         <div ref={bottomRef}></div>
       </Box>
       <Box
@@ -122,9 +166,7 @@ const GroupBody = ({ id }: GroupBodyProps) => {
           padding: "15px 20px",
         }}
       >
-        <MessageInput
-          groupId={id}
-        />
+        <MessageInput groupId={id} />
       </Box>
     </>
   );

@@ -1,38 +1,40 @@
-import React from 'react'
-import { TextField, InputAdornment, Avatar, Stack } from '@mui/material'
-import KeyboardVoiceRoundedIcon from '@mui/icons-material/KeyboardVoiceRounded';
-import AttachFileRoundedIcon from '@mui/icons-material/AttachFileRounded';
-import SendRoundedIcon from '@mui/icons-material/SendRounded';
-import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
-import { useSession } from 'next-auth/react';
-import { theme } from '../../theme';
+import React from "react";
+import { TextField, InputAdornment, Avatar, Stack } from "@mui/material";
+import KeyboardVoiceRoundedIcon from "@mui/icons-material/KeyboardVoiceRounded";
+import AttachFileRoundedIcon from "@mui/icons-material/AttachFileRounded";
+import SendRoundedIcon from "@mui/icons-material/SendRounded";
+import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
+import { useSession } from "next-auth/react";
+import { theme } from "../../theme";
 import { CldUploadButton } from "next-cloudinary";
 
 interface MessageInputProps {
-    groupId: string
+  groupId: string;
 }
 
-const MessageInput = ({groupId} : MessageInputProps ) => {
-    const { data: session } = useSession();
-    const [message, setMessage] = React.useState("");
-    const sendMessage = async () => {
-      await fetch(`/api/message`, {
-        method: "POST",
-        body: JSON.stringify({
-          sender: session?.user._doc._id,
-          recipient: null,
-          recipientGroup: groupId,
-          content: message,
-          parentMessage: null,
-          hearts: null,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    };
+const MessageInput = ({ groupId }: MessageInputProps) => {
+  const { data: session } = useSession();
+  const [message, setMessage] = React.useState("");
+  let canPublish = true;
+  let throttleTime = 200; //0.2 seconds
+  const sendMessage = async () => {
+    await fetch(`/api/message`, {
+      method: "POST",
+      body: JSON.stringify({
+        sender: session?.user._doc._id,
+        recipient: null,
+        recipientGroup: groupId,
+        content: message,
+        parentMessage: null,
+        hearts: null,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
 
-     const handleUpload = async (result: any) => {
+  const handleUpload = async (result: any) => {
     await fetch(`/api/message`, {
       method: "POST",
       body: JSON.stringify({
@@ -41,14 +43,14 @@ const MessageInput = ({groupId} : MessageInputProps ) => {
         recipientGroup: groupId,
         content: result.info.secure_url,
         parentMessage: null,
-          hearts: null,
+        hearts: null,
         type: "photo",
       }),
       headers: {
         "Content-Type": "application/json",
       },
     });
-     };
+  };
 
   return (
     <>
@@ -79,7 +81,9 @@ const MessageInput = ({groupId} : MessageInputProps ) => {
                 <CldUploadButton
                   options={{ maxFiles: 1 }}
                   onUpload={handleUpload}
-                  uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
+                  uploadPreset={
+                    process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
+                  }
                 >
                   <ImageOutlinedIcon fontSize="small" sx={{ opacity: "0.6" }} />
                 </CldUploadButton>
@@ -110,12 +114,30 @@ const MessageInput = ({groupId} : MessageInputProps ) => {
             setMessage("");
           }
         }}
+        onKeyUp={(e) => {
+          if (canPublish) {
+            fetch(`/api/message/user-typing`, {
+              method: "POST",
+              body: JSON.stringify({
+                group_id: groupId,
+              }),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+
+            canPublish = false;
+            setTimeout(function () {
+              canPublish = true;
+            }, throttleTime);
+          }
+        }}
         onChange={(e) => {
           setMessage(e.target.value);
         }}
       />
     </>
   );
-}
+};
 
-export default MessageInput
+export default MessageInput;
