@@ -7,7 +7,6 @@ import React, { PropsWithChildren, ReactNode } from "react";
 import SideBar from "./Sidebar";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { usePathname } from "next/navigation";
 
 // ----------------------------------------------------------------------
 
@@ -35,8 +34,7 @@ const Layout = ({ children }: PropsWithChildren) => {
 	const [open, setOpen] = useState(false);
 	const { data: session } = useSession();
 	const router = useRouter();
-	const pathname = usePathname();
-	if (!session && pathname !== "/login" && pathname !== "/register") {
+	if (!session) {
 		router.push("/login");
 	}
 	return (
