@@ -16,7 +16,7 @@ export async function middleware(req: NextRequest) {
 	const res = NextResponse.next();
 
 	if (isPathProtected) {
-		const token = await getToken({ req });
+		const token = await getToken({ req, secret: process.env.SECRET });
 		if (!token) {
 			const url = new URL(`/login`, req.url);
 			return NextResponse.redirect(url);
