@@ -8,6 +8,7 @@ import { useRef, useEffect } from 'react';
 import { pusherClient } from '@/libs/pusher';
 import { find } from 'lodash'
 import MessageInput from './MessageInput';
+import { setImmediate } from 'timers';
 
 
 
@@ -34,18 +35,21 @@ const GroupBody = ({ id }: GroupBodyProps) => {
     const data = await messages.json();
     return data;
   }
+  const scrollToMenu = (ref: any) => {
+    setImmediate(() => ref.current.scrollIntoView({behavior: "smooth",inline: "center", }));
+};
   useEffect(() => {
     seenMessages();
   }, [id])
   useEffect(() => {
     getAllMessages().then((res) => {
       setInitialMessages(res);
-      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+      scrollToMenu(bottomRef);
     })
   }, []);
   useEffect(() => {
     pusherClient.subscribe(id);
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    scrollToMenu(bottomRef);
 
     const messageHandler = (message: any) => {
       seenMessages();
@@ -55,7 +59,7 @@ const GroupBody = ({ id }: GroupBodyProps) => {
         }
         return [...current, message];
       });
-      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+      scrollToMenu(bottomRef);
     };
     const updatedMessageHandler = (newMessage: any) => {
       setInitialMessages((current : any) =>
@@ -66,7 +70,7 @@ const GroupBody = ({ id }: GroupBodyProps) => {
           return currentMessage;
         })
       );
-      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+      scrollToMenu(bottomRef);
     };
     pusherClient.bind("messages:new", messageHandler);
     pusherClient.bind("messages:update", updatedMessageHandler);
