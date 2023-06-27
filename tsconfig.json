@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/app/api/auth/[...nextauth]/route.js",
+    "src/app/api/chat/route.js",
+    "src/components/chat/MessageCard.jsx",
+    "src/app/api/group/route.js",
+    "src/app/api/message/route.js"
+, "src/app/message/[...id]/page.jsx", "src/components/profile/UserBanner.jsx", "src/components/chat/GroupCard.tsx", "src/components/profile/UpdateProfile.jsx", "src/components/profile/Friends.jsx",
+  ],
+  "exclude": ["node_modules"]
+}
