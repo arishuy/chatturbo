@@ -67,7 +67,7 @@ const UserBanner = () => {
 
     const handleOk = () => {
         setOpen(true);
-        setMessage('Avatar updated!');
+        setMessage('Profile updated!');
     };
 
     async function getUser() {
@@ -165,7 +165,7 @@ const UserBanner = () => {
                 autoHideDuration={3000}
                 onClose={handleCloseSnack}
             >
-                <Alert severity="success" sx={{ width: '100%' }}>
+                <Alert variant="filled" severity="success" sx={{ width: '100%' }}>
                     {message}
                 </Alert>
             </Snackbar>

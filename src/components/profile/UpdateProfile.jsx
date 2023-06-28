@@ -25,18 +25,17 @@ const UpdateProfile = ({
   const isMobile = useResponsive("down", "sm");
   const handleUpdateUserInfo = async () => {
     const data = {
-      userName: updatedUserInfo.current.userName,
+      username: updatedUserInfo.current.username,
       email: updatedUserInfo.current.email,
       name: updatedUserInfo.current.name,
       surname: updatedUserInfo.current.surname,
-      phoneNumber: updatedUserInfo.current.phoneNumber,
+      quote: updatedUserInfo.current.quote,
     };
-    const response = await fetch(`/api/identity/profile/my-profile`, {
+    const response = await fetch(`/api/user/update`, {
       method: "PUT",
       body: JSON.stringify(data),
     });
-    const result = await response.json();
-    if (result.success) {
+    if (response.status === 200) {
       handleOk();
     }
   };
@@ -157,7 +156,7 @@ const UpdateProfile = ({
                   fullWidth
                   defaultValue={userInfo.username || ""}
                   onChange={(e) => {
-                    updatedUserInfo.current.userName = e.target.value;
+                    updatedUserInfo.current.username = e.target.value;
                   }}
                   sx={{ marginBottom: "13px", marginTop: "13px" }}
                 />
@@ -206,7 +205,7 @@ const UpdateProfile = ({
                   fullWidth
                   defaultValue={userInfo?.quote || ""}
                   onChange={(e) => {
-                    updatedUserInfo.current.phoneNumber = e.target.value;
+                    updatedUserInfo.current.quote = e.target.value;
                   }}
                   sx={{ marginBottom: "13px" }}
                 />

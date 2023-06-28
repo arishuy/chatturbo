@@ -31,7 +31,10 @@ const Friends = () => {
             <Grid container spacing={2}>
                 {friends?.map((friend) => (
                     <Grid key={friend._id}  item xs={12} md={4}>
-                        <Link  href={`/profile/${friend._id}`} passHref>
+                        <Link  href={`/profile/${friend._id}`} passHref  sx={{
+                            textDecoration: 'none',
+                            color: 'inherit',
+                        }}>
                         <Card sx={{ display: 'flex', padding: '10px' }}>
                             <Image
                                 src={friend.avatar}
