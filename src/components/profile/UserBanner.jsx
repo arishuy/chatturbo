@@ -155,7 +155,11 @@ const UserBanner = () => {
         isFriend.current = true;
     }
     return (
-        <Box>
+        <Box sx={{
+            maxHeight: "100vh",
+            overflowX: "auto",
+            "::-webkit-scrollbar": { display: "none" },
+        }}>
             <Snackbar
                 anchorOrigin={{
                     vertical: 'bottom',
