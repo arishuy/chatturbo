@@ -158,6 +158,7 @@ const UserBanner = () => {
         <Box sx={{
             maxHeight: "100vh",
             overflowX: "auto",
+            paddingBottom: "60px",
             "::-webkit-scrollbar": { display: "none" },
         }}>
             <Snackbar
