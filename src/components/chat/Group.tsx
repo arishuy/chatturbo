@@ -74,7 +74,7 @@ const Group = () => {
   }, []);
   return (
     <Box>
-      <Box sx={{ padding: "40px" }}>
+      <Box sx={{ padding: "25px" }}>
         <ListItem>
           <ListItemAvatar>
             <div
