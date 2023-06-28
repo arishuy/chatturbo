@@ -7,13 +7,17 @@ import { getToken } from 'next-auth/jwt';
 export const PUT = async (req) => {
     await connect();
     const session = await getToken({ req, secret: process.env.SECRET });
-    const body = req.json();
-    const user = await User.findByIdAndUpdate(session.sub, {
-            username: body.username,
-            email: body.email,
-            name: body.name,
-            surname: body.surname,
-            quote: body.quote,
+    if (!session) {
+        return new NextResponse(JSON.stringify("Unauthorized"), { status: 401 });
+    }
+    const body = await req.json();
+    const { username, email, name, surname, quote } = body;
+    await User.findByIdAndUpdate(session.sub, {
+        username: username,
+        email: email,
+        name: name,
+        surname: surname,
+        quote: quote,
     });
-    return new NextResponse(JSON.stringify(user), { status: 200 });
+    return new NextResponse(JSON.stringify("Success"), { status: 200 });
 };
