@@ -88,7 +88,7 @@ const GroupCard = ({ name, latestMessage,seenBy, avatar, time, url, sender }: Gr
             <React.Fragment>
               <Typography noWrap 
         
-              sx={{ marginTop: "10px", opacity: "0.5", color: !isSeenBy.current ? "black" : "",
+              sx={{maxWidth:"150px", marginTop: "10px", opacity: "0.5", color: !isSeenBy.current ? "black" : "",
               fontWeight: !isSeenBy.current ? "bold" : "",
 
 }}>
