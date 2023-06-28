@@ -9,7 +9,7 @@ const GroupSchema = new Schema(
       type: String,
       trim: true,
       default:
-        "https://demos.themeselection.com/marketplace/materio-mui-react-nextjs-admin-template/demo-1/images/avatars/1.png",
+        "https://res.cloudinary.com/dndjxbram/image/upload/v1687956906/wbvg8vzrqmevcd24uf4z.png",
     },
     members: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     latestMessage: {

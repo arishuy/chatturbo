@@ -32,6 +32,15 @@ const RandomPeople = () => {
                 >
                     May be you know
                 </Typography>
+                {initialPeople.length === 0 && (
+                    <Typography
+                        variant="subtitle1"
+                        component="div"
+                        sx={{ marginLeft: '20px', padding: '20px 20px' }}
+                    >
+                        Nothing here...
+                    </Typography>
+                )}
                 {initialPeople.map((item) => (
                     <Link
                         key={item._id}

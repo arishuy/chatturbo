@@ -14,12 +14,12 @@ import DuoOutlinedIcon from "@mui/icons-material/DuoOutlined";
 import CallOutlinedIcon from "@mui/icons-material/CallOutlined";
 import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 import TextSnippetOutlinedIcon from "@mui/icons-material/TextSnippetOutlined";
-import GroupInfo from "@/components/chat/GroupInfo";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useRef } from "react";
 import GroupBody from "@/components/chat/GroupBody";
+import GroupInfo from "@/components/chat/GroupInfo";
 import AvatarOnline from "@/components/chat/AvatarOnline";
 
 const Page = () => {
@@ -118,26 +118,17 @@ const Page = () => {
             </Stack>
             {isGroup.current && (
               <AvatarGroup max={3}>
-                <Avatar
-                  alt="Remy Sharp"
-                  src="https://demos.themeselection.com/marketplace/materio-mui-react-nextjs-admin-template/demo-1/images/avatars/2.png"
+                {
+                  groupInfo?.members?.map((member) => {
+                    return (
+                      <Avatar key={member._id}
+                  alt={member.name + " " + member.surname}
+                  src={member.avatar}
                 />
-                <Avatar
-                  alt="Travis Howard"
-                  src="https://demos.themeselection.com/marketplace/materio-mui-react-nextjs-admin-template/demo-1/images/avatars/3.png"
-                />
-                <Avatar
-                  alt="Cindy Baker"
-                  src="https://demos.themeselection.com/marketplace/materio-mui-react-nextjs-admin-template/demo-1/images/avatars/4.png"
-                />
-                <Avatar
-                  alt="Agnes Walker"
-                  src="https://demos.themeselection.com/marketplace/materio-mui-react-nextjs-admin-template/demo-1/images/avatars/5.png"
-                />
-                <Avatar
-                  alt="Trevor Henderson"
-                  src="https://demos.themeselection.com/marketplace/materio-mui-react-nextjs-admin-template/demo-1/images/avatars/6.png"
-                />
+                    )
+                
+                  })
+                }
               </AvatarGroup>
             )}
           </Box>
