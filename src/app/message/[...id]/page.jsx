@@ -70,7 +70,7 @@ const Page = () => {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              padding: "25px 20px",
+              padding: "20px 20px",
             }}
           >
             <Stack
