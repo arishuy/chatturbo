@@ -78,6 +78,7 @@ const GroupBody = ({ id }: GroupBodyProps) => {
     };
     const isUserTypingHandler = (user: any) => {
       console.log(user);
+      console.log(session?.user._doc._id);
        if (user._id === session?.user._doc._id) {
          return;
        }

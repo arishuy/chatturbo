@@ -102,6 +102,7 @@ const GroupCard = ({ name, latestMessage,seenBy, avatar, time, url, sender }: Gr
             paddingTop: "10px",
             marginLeft: "auto",
             paddingLeft: "0px",
+            paddingRight:"0px",
             justifyContent: "flex-end",
             width: "30%",
             marginRight: "15px",
@@ -110,7 +111,7 @@ const GroupCard = ({ name, latestMessage,seenBy, avatar, time, url, sender }: Gr
           <Stack
             direction="column"
             gap="15px"
-            sx={{ justifyContent: "center", alignItems: "center" }}
+            sx={{ justifyContent: "center", alignItems: "center", marginRight:"15px" }}
           >
             <Typography sx={{ fontSize: "12px", opacity: "0.7" }}>
               {time}

@@ -26,6 +26,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { pusherClient } from "@/libs/pusher";
 import AvatarOnline from "./AvatarOnline";
+import { Visibility } from "@mui/icons-material";
 
 const Group = () => {
   const [initialGroups, setInitialGroups] = React.useState([]);
@@ -38,13 +39,13 @@ const Group = () => {
     const data = await groups.json();
     return data;
   }
-   const pusherKey = useMemo(() => {
-     return session?.user._doc._id;
-   }, [session?.user._doc._id]);
-  
+  const pusherKey = useMemo(() => {
+    return session?.user._doc._id;
+  }, [session?.user._doc._id]);
+
   useEffect(() => {
     if (!pusherKey) return;
-     pusherClient.subscribe(pusherKey);
+    pusherClient.subscribe(pusherKey);
     const updateHandler = (conversation: any) => {
       setInitialGroups((current: any) => {
         const index = current.findIndex(
@@ -59,31 +60,47 @@ const Group = () => {
         );
         return [conversation, ...newGroups];
       });
-     };
+    };
     pusherClient.bind("group:update", updateHandler);
     return () => {
       pusherClient.unsubscribe(pusherKey);
       pusherClient.unbind("group:update", updateHandler);
-    }
+    };
   }, [pusherKey]);
   useEffect(() => {
     getAllGroups().then((res) => {
       setInitialGroups(res);
-    })
+    });
   }, []);
   return (
-    <Box sx={{ padding: "35px 15px 50px 15px" }}>
-      <Box sx={{ paddingBottom: "15px" }}>
+    <Box>
+      <Box sx={{ padding: "40px" }}>
         <ListItem>
           <ListItemAvatar>
-            <Avatar
-              sx={{
-                width: "56px",
-                height: "56px",
+            <div
+              className="progress-bar"
+              style={{
+                width: "80px",
+                height: "80px",
+                borderRadius: "50%",
+                background:
+                  "radial-gradient(closest-side, white 88%, transparent 80% 100%), conic-gradient(#1355FF 75%, transparent 0)",
+                position: "relative",
               }}
-              alt="Remy Sharp"
-              src={session?.user?._doc.avatar}
-            />
+            >
+              <Avatar
+                sx={{
+                  width: "70px",
+                  height: "70px",
+                  position: "absolute",
+                  top: "5px",
+                  left: "5px",
+                  border: "3px solid white",
+                }}
+                alt="Remy Sharp"
+                src={session?.user?._doc.avatar}
+              />
+            </div>
           </ListItemAvatar>
           <ListItemText
             sx={{ marginLeft: "15px" }}
@@ -101,7 +118,7 @@ const Group = () => {
         </ListItem>
       </Box>
       <Divider />
-      <Box sx={{ paddingTop: "33px" }}>
+      <Box sx={{ paddingTop: "33px", marginLeft: "12px" }}>
         <Typography variant="h4"> Online now</Typography>
         <ListItem
           sx={{
@@ -151,13 +168,14 @@ const Group = () => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+            marginLeft: "12px",
           }}
         >
           <Typography variant="h4"> Messages</Typography>
-          <Button>
+          <Button sx={{ marginRight: "15px" }}>
             <AddToPhotosOutlinedIcon
               fontSize="medium"
-              sx={{ opacity: "0.5", marginRight: "15px" }}
+              sx={{ opacity: "0.5" }}
             />
           </Button>
         </Box>
@@ -188,7 +206,7 @@ const Group = () => {
             />
           </FormControl>
           <Box sx={{ width: "100%" }}>
-            <List sx={{ width: "100%" }}>
+            <List sx={{ width: "92%", margin: "auto" }}>
               {initialGroups.map((group: any) => {
                 const friend = group?.members.filter(
                   (member: any) => member._id !== session?.user._doc._id
@@ -203,11 +221,11 @@ const Group = () => {
                       latestMessage={
                         group.latestMessage?.sender === session?.user._doc._id
                           ? "You: " + group.latestMessage?.content
-                          :group.latestMessage?.content
+                          : group.latestMessage?.content
                       }
-                      seenBy= {group.latestMessage?.seenBy}
+                      seenBy={group.latestMessage?.seenBy}
                       time={timeSince(new Date(group.latestMessage?.createdAt))}
-                      sender= {group.latestMessage?.sender}
+                      sender={group.latestMessage?.sender}
                     />
                   </Link>
                 );
