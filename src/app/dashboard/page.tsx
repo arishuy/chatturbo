@@ -3,6 +3,7 @@ import React from 'react'
 import { Grid } from "@mui/material";
 import TopMessage from '@/components/dashboard/TopMessage';
 import Reminder from '@/components/dashboard/Reminder';
+import RandomPeople from '@/components/dashboard/RandomPeople';
 const Page = () => {
   return (
     <div style={{
@@ -25,6 +26,9 @@ const Page = () => {
         </Grid>
         <Grid item xs={12} md={8} lg={8}>
           <Reminder />
+        </Grid>
+        <Grid item xs={12} md={3} lg={3}>
+          <RandomPeople />
         </Grid>
       </Grid>
     </div>
