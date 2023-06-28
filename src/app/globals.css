@@ -174,7 +174,6 @@ animation-delay: -4s;
 
 
 /* page css */
-@import url("https://fonts.googleapis.com/css2?family=Nabla:EDPT,EHLT@30..200,24&display=swap");
 
 .empty{
 	margin: 0;
@@ -190,17 +189,12 @@ animation-delay: -4s;
   color: black;
 }
 
-@font-palette-values --Nabla {
-	font-family: Nabla;
-	base-palette: 2;
-}
 
 .empty span {
 	animation: depth 1s ease-in-out alternate infinite;
 	position: relative;
 	display: inline-block;
 	font-variation-settings: "EDPT" 30;
-	font-palette: --Nabla;
 	@for $i from 1 through 12 {
 		&:nth-child(#{$i}) {
 			animation-delay: $i * 0.1s;
@@ -343,3 +337,9 @@ animation-delay: -4s;
   }
 }
 
+.react-input-emoji--button svg {
+    fill: #2065D1 !important;
+    width: 1em;
+    height: 1em;
+    opacity: 0.7;
+  }

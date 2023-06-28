@@ -33,7 +33,7 @@
     "src/components/chat/MessageCard.jsx",
     "src/app/api/group/route.js",
     "src/app/api/message/route.js"
-, "src/app/message/[...id]/page.jsx", "src/components/profile/UserBanner.jsx", "src/components/chat/GroupCard.tsx", "src/components/profile/UpdateProfile.jsx", "src/components/profile/Friends.jsx",
+, "src/app/message/[...id]/page.jsx", "src/components/profile/UserBanner.jsx", "src/components/chat/GroupCard.tsx", "src/components/profile/UpdateProfile.jsx", "src/components/profile/Friends.jsx", "src/components/dashboard/RandomPeople.jsx", "src/components/chat/NewGroup.jsx", "src/components/chat/MessageInput.jsx",
   ],
   "exclude": ["node_modules"]
 }

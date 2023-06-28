@@ -110,8 +110,6 @@ const GroupBody = ({ id }: GroupBodyProps) => {
       pusherClient.unbind("user:typing", isUserTypingHandler);
     }
   }, [id])
-  
-
   return (
     <>
       <Box
