@@ -50,12 +50,11 @@ function a11yProps(index) {
     };
 }
 
-const UserBanner = () => {
+const UserBanner = ({user}) => {
     const { data: session } = useSession();
     const [value, setValue] = React.useState(0);
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('');
-    const [user, setUser] = useState();
     const isSendRequest = useRef(false);
     const isAcceptRequest = useRef(false);
     const isFriend = useRef(false);
@@ -70,13 +69,7 @@ const UserBanner = () => {
         setMessage('Profile updated!');
     };
 
-    async function getUser() {
-        const response = await fetch(`/api/user/${id.id}`, {
-            method: 'GET',
-        });
-        const data = await response.json();
-        return data;
-    }
+
     const addFriend = async () => {
         const response = await fetch(`/api/friend/add/${id.id}`, {
             method: 'POST',
@@ -129,11 +122,6 @@ const UserBanner = () => {
             isSendRequest.current = false;
         }
     };
-    useEffect(() => {
-        getUser().then((data) => {
-            setUser(data);
-        });
-    }, [id.id]);
     const isMobile = useResponsive('down', 'sm');
     const handleChange = (event, newValue) => {
         setValue(newValue);
