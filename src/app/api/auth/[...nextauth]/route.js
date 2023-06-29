@@ -4,7 +4,7 @@ import connect from '@/utils/db';
 import bcrypt from 'bcryptjs';
 import NextAuth from 'next-auth';
 
-const handler = NextAuth({
+export const authOptions =  {
     providers: [
         CredentialsProvider({
             id: 'credentials',
@@ -50,6 +50,6 @@ const handler = NextAuth({
     pages: {
         signIn: '/login',
     },
-});
-
+};
+const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
