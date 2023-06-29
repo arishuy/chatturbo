@@ -1,21 +1,8 @@
 import React, { Suspense } from 'react';
 import { useEffect } from 'react';
 import { Avatar, Card, Stack, Typography, Link } from '@mui/material';
-async function getRequestTo() {
-    const res = await fetch(`/api/friend/myrequest`, {
-        method: 'GET',
-    });
-    const data = await res.json();
-    return data;
-}
 
-const RequestTo = () => {
-    const [initialRequest, setInitialRequest] = React.useState([]);
-    useEffect(() => {
-        getRequestTo().then((res) => {
-            setInitialRequest(res);
-        });
-    }, []);
+const RequestTo = ({requestTo}) => {
     return (
         <Suspense fallback={<div>Loading...</div>}>
             <Card
@@ -32,7 +19,7 @@ const RequestTo = () => {
                 >
                     You Requested To
                 </Typography>
-                {initialRequest.length === 0 && (
+                {requestTo.length === 0 && (
                     <Typography
                         variant="subtitle1"
                         component="div"
@@ -41,7 +28,7 @@ const RequestTo = () => {
                         Nothing here...
                     </Typography>
                 )}
-                {initialRequest.map((item) => (
+                {requestTo.map((item) => (
                     <Link
                         key={item._id}
                         href={`/profile/${item._id}`}

@@ -1,21 +1,7 @@
 import React, { Suspense } from 'react';
-import { useEffect } from 'react';
 import { Avatar, Card, Stack, Typography, Link } from '@mui/material';
-async function getRandomPeople() {
-    const res = await fetch(`/api/people`, {
-        method: 'GET',
-    });
-    const data = await res.json();
-    return data;
-}
 
-const RandomPeople = () => {
-    const [initialPeople, setInitialPeople] = React.useState([]);
-    useEffect(() => {
-        getRandomPeople().then((res) => {
-            setInitialPeople(res);
-        });
-    }, []);
+const RandomPeople = ({randomPeople}) => {
     return (
         <Suspense fallback={<div>Loading...</div>}>
             <Card
@@ -32,7 +18,7 @@ const RandomPeople = () => {
                 >
                     May be you know
                 </Typography>
-                {initialPeople.length === 0 && (
+                {randomPeople.length === 0 && (
                     <Typography
                         variant="subtitle1"
                         component="div"
@@ -41,7 +27,7 @@ const RandomPeople = () => {
                         Nothing here...
                     </Typography>
                 )}
-                {initialPeople.map((item) => (
+                {randomPeople.map((item) => (
                     <Link
                         key={item._id}
                         href={`/profile/${item._id}`}

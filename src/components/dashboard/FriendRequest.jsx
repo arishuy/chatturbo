@@ -1,21 +1,7 @@
 import React, { Suspense } from 'react';
 import { useEffect } from 'react';
 import { Avatar, Card, Stack, Typography, Link } from '@mui/material';
-async function getFriendRequest() {
-    const res = await fetch(`/api/friend/request`, {
-        method: 'GET',
-    });
-    const data = await res.json();
-    return data;
-}
-
-const FriendRequest = () => {
-    const [initialRequest, setInitialRequest] = React.useState([]);
-    useEffect(() => {
-        getFriendRequest().then((res) => {
-            setInitialRequest(res);
-        });
-    }, []);
+const FriendRequest = ({friendRequest}) => {
     return (
         <Suspense fallback={<div>Loading...</div>}>
             <Card
@@ -32,7 +18,7 @@ const FriendRequest = () => {
                 >
                     Friend Request
                 </Typography>
-                {initialRequest.length === 0 && (
+                {friendRequest.length === 0 && (
                     <Typography
                         variant="subtitle1"
                         component="div"
@@ -41,7 +27,7 @@ const FriendRequest = () => {
                         No Friend Request
                     </Typography>
                 )}
-                {initialRequest.map((item) => (
+                {friendRequest.map((item) => (
                     <Link
                         key={item._id}
                         href={`/profile/${item._id}`}
