@@ -6,7 +6,7 @@ import Reminder from '@/components/dashboard/Reminder';
 import RandomPeople from '@/components/dashboard/RandomPeople';
 import FriendRequest from '@/components/dashboard/FriendRequest';
 import RequestTo from '@/components/dashboard/RequestTo';
-const Dashboard = ({randomPeople, friendRequest, requestTo}) =>{
+const Dashboard = (props) =>{
   return (
     <Grid
         container
@@ -16,19 +16,25 @@ const Dashboard = ({randomPeople, friendRequest, requestTo}) =>{
           marginLeft: "auto",
         }}>
         <Grid item xs={12} md={4} lg={4}>
-          <TopMessage />
+        {/* <TopMessage /> */}
+        {props.TopMessage}
         </Grid>
         <Grid item xs={12} md={8} lg={8}>
-          <Reminder />
+          {/* <Reminder />
+           */}
+        {props.Reminder}
         </Grid>
         <Grid item xs={12} md={4} lg={4}>
-          <RandomPeople randomPeople={randomPeople}  />
+        {/* <RandomPeople randomPeople={randomPeople}  /> */}
+        {props.RandomPeople}
         </Grid>
         <Grid item xs={12} md={4} lg={4}>
-          <FriendRequest friendRequest={friendRequest} />
+        {/* <FriendRequest friendRequest={friendRequest} /> */}
+        {props.FriendRequest}
         </Grid>
         <Grid item xs={12} md={4} lg={4}>
-          <RequestTo requestTo={requestTo} />
+        {/* <RequestTo requestTo={requestTo} /> */}
+        {props.RequestTo}
         </Grid>
       </Grid>
   )

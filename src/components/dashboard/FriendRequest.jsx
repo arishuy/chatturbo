@@ -1,5 +1,5 @@
+'use client'
 import React, { Suspense } from 'react';
-import { useEffect } from 'react';
 import { Avatar, Card, Stack, Typography, Link } from '@mui/material';
 const FriendRequest = ({friendRequest}) => {
     return (
