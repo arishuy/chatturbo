@@ -1,149 +1,24 @@
-"use client";
-import React from "react";
-import { theme } from "../../../theme";
-import { Grid } from "@mui/material";
-import {
-  Box,
-  Avatar,
-  Typography,
-  Divider,
-  Stack,
-  AvatarGroup,
-} from "@mui/material";
-import DuoOutlinedIcon from "@mui/icons-material/DuoOutlined";
-import CallOutlinedIcon from "@mui/icons-material/CallOutlined";
-import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
-import TextSnippetOutlinedIcon from "@mui/icons-material/TextSnippetOutlined";
-import { useSession } from "next-auth/react";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useRef } from "react";
-import GroupBody from "@/components/chat/GroupBody";
-import GroupInfo from "@/components/chat/GroupInfo";
-import AvatarOnline from "@/components/chat/AvatarOnline";
 
-const Page = () => {
-  const { data: session } = useSession();
-  const { id } = useParams();
-  const [groupInfo, setGroupInfo] = useState();
-  const isGroup = useRef(false);
-  if (groupInfo?.members?.length > 2) {
-    isGroup.current = true;
-  }
-  async function getGroupInfo() {
-    const res = await fetch(`/api/group/${id}`, {
-      method: "GET",
-    });
-    const data = await res.json();
-    return data;
-  }
-  useEffect(() => {
-    getGroupInfo().then((data) => {
-      setGroupInfo(data);
-    });
-  }, []);
+import connect from '@/utils/db';
+import Group from '@/models/group';
+import MessagePage from '@/components/chat/MessagePage';
+
+async function getGroupInfo(id) {
+  const res = await fetch(`https://www.chatturbo.tech/api/group/${id}`, {
+    method: 'GET',
+  });
+  return res.json();
+}
+export default async function  Page  ({
+  params,
+  searchParams,
+}) {
+  const id = searchParams?.id ? searchParams : params;
+  const groupInfo = await getGroupInfo(id['id']);
   return (
     <>
       <title>Message</title>
-      <Grid
-        container
-        sx={{
-          background: theme.palette.background.paper,
-          height: "100vh",
-          maxHeight: "100vh",
-          overflowX: "hidden",
-          overflowY: "hidden",
-        }}
-      >
-        <Grid
-          item
-          xs={12}
-          md={9}
-          lg={9}
-          sx={{
-            borderRight: "rgba(145, 158, 171, 0.24) solid",
-            borderWidth: "1px",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              padding: "20px 20px",
-            }}
-          >
-            <Stack
-              direction={"row"}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <AvatarOnline
-                isOnline={true}
-                avatar={
-                  groupInfo
-                    ? isGroup.current
-                      ? groupInfo?.avatar
-                      : groupInfo?.members?.filter(
-                          (member) => member._id !== session?.user?._doc._id
-                        )[0]?.avatar
-                    : ""
-                }
-              />
-              <Typography variant="h6" sx={{ paddingLeft: "20px" }}>
-                {groupInfo
-                  ? isGroup.current
-                    ? groupInfo?.name
-                    : groupInfo?.members?.filter(
-                        (member) => member._id !== session?.user?._doc._id
-                      )[0]?.name +
-                      " " +
-                      groupInfo?.members?.filter(
-                        (member) => member._id !== session?.user?._doc._id
-                      )[0]?.surname
-                  : "Loading..."}
-              </Typography>
-            </Stack>
-            <Stack direction="row" sx={{ display: "flex", gap: "15px" }}>
-              <DuoOutlinedIcon fontSize="small" sx={{ opacity: "0.6" }} />
-              <CallOutlinedIcon fontSize="small" sx={{ opacity: "0.6" }} />
-              <ImageOutlinedIcon fontSize="small" sx={{ opacity: "0.6" }} />
-              <TextSnippetOutlinedIcon
-                fontSize="small"
-                sx={{ opacity: "0.7" }}
-              />
-            </Stack>
-            {isGroup.current && (
-              <AvatarGroup max={3}>
-                {
-                  groupInfo?.members?.map((member) => {
-                    return (
-                      <Avatar key={member._id}
-                  alt={member.name + " " + member.surname}
-                  src={member.avatar}
-                />
-                    )
-                
-                  })
-                }
-              </AvatarGroup>
-            )}
-          </Box>
-          <Divider />
-          <Box sx={{ maxHeight: "100vh", overflow: "auto" }}>
-            <GroupBody id={id} />
-          </Box>
-        </Grid>
-        <Divider />
-        <Grid item xs={12} md={3} lg={3}>
-          <GroupInfo groupInfo={groupInfo} isGroup={isGroup.current} />
-        </Grid>
-      </Grid>
+      <MessagePage groupInfo={groupInfo} id={id['id']} />
     </>
   );
 };
-
-export default Page;
