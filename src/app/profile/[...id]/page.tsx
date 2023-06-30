@@ -1,7 +1,7 @@
 import UserBanner from '@/components/profile/UserBanner'
 import React from 'react'
 async function getUser(id: string) {
-  const response = await fetch(`http://localhost:3000/api/user/${id}`, {
+  const response = await fetch(`https://www.chatturbo.tech/api/user/${id}`, {
       method: 'GET',
       cache: 'no-store'
   });
