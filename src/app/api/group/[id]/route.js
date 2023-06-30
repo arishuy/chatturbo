@@ -1,6 +1,9 @@
 import connect from '@/utils/db';
-import Group from '@/models/group';
+import Group from "@/models/group";
+import Message from "@/models/message";
+import User from "@/models/user";
 import { NextResponse } from 'next/server';
+import { getToken } from 'next-auth/jwt';
 
 export const GET = async (req, { params }) => {
     await connect();
