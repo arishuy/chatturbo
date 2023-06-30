@@ -10,16 +10,18 @@ import AvatarEditor from "./avatar/AvatarEditor";
 import { getCroppedImg } from "./avatar/AvatarEditor";
 import useResponsive from "@/hooks/useResponsive";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
 const UpdateProfile = ({
   userInfo,
   handleOk,
   profileImage,
 }) => {
+  const { data: session, update: sessionUpdate } = useSession();
   const updatedUserInfo = useRef()
   const [file, setFile] = useState("");
   const [open, setOpen] = useState(false);
-  const [profileImge, setProfileImage] = useState(profileImage);
+  const profileImge = useRef(profileImage);
   const imgRef = useRef(null);
   const [completedCrop, setCompletedCrop] = useState(null);
   const isMobile = useResponsive("down", "sm");
@@ -36,6 +38,20 @@ const UpdateProfile = ({
       body: JSON.stringify(data),
     });
     if (response.status === 200) {
+      sessionUpdate({
+        ...session,
+        user: {
+          ...session.user,
+          _doc: {
+            ...session.user._doc,
+            username: updatedUserInfo.current.username,
+            email: updatedUserInfo.current.email,
+            name: updatedUserInfo.current.name,
+            surname: updatedUserInfo.current.surname,
+            quote: updatedUserInfo.current.quote,
+          },
+        },
+      })
       handleOk();
     }
   };
@@ -63,7 +79,17 @@ const UpdateProfile = ({
             "Content-Type": "application/json",
           },
         })
-        setProfileImage(response.data.secure_url);
+        profileImge.current = response.data.secure_url;
+        sessionUpdate({
+          ...session,
+          user: {
+            ...session.user,
+            _doc: {
+              ...session.user._doc,
+              avatar: response.data.secure_url,
+            },
+          },
+        })
         onFinishUpload();
         handleOk();
 
@@ -117,7 +143,7 @@ const UpdateProfile = ({
             }}
           >
             <AvatarUploadTrigger
-              profileImage={profileImge}
+              profileImage={profileImge.current}
               onNewSelectedFile={(file) => {
                 setFile(file);
                 setOpen(true);
