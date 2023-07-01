@@ -14,26 +14,21 @@ import {
   Badge,
   Button,
 } from "@mui/material";
-import ImageIcon from "@mui/icons-material/Image";
 import SearchIcon from "@mui/icons-material/Search";
-import ClearIcon from "@mui/icons-material/Clear";
 import React, { useEffect, useMemo } from "react";
 import GroupCard from "./GroupCard";
 import AddToPhotosOutlinedIcon from "@mui/icons-material/AddToPhotosOutlined";
 import Link from "next/link";
 import { timeSince } from "../../utils/changeDate";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { pusherClient } from "@/libs/pusher";
 import AvatarOnline from "./AvatarOnline";
-import { Visibility } from "@mui/icons-material";
 import RootModal from "../modals/RootModal";
 import NewGroup from "./NewGroup";
 
 const Group = () => {
   const [initialGroups, setInitialGroups] = React.useState([]);
   const [open, setOpen] = React.useState(false);
-  const router = useRouter();
   const { data: session } = useSession();
   async function getAllGroups() {
     const groups = await fetch("/api/group", {

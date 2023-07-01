@@ -6,6 +6,7 @@ import {
   Typography,
   Divider,
   ListItem,
+  Skeleton
 } from "@mui/material";
 import { useSession } from "next-auth/react";
 export type GroupInfoProps = {
@@ -81,7 +82,7 @@ const GroupInfo = ({
                     groupInfo?.members?.filter(
                       (member) => member._id !== session?.user?._doc._id
                     )[0]?.surname
-                  : "Loading..."}
+                  : <Skeleton variant="text" width="100px" />}
               </Typography>
               <Typography
                 sx={{ opacity: "0.5", fontSize: "14px" }}
@@ -91,7 +92,7 @@ const GroupInfo = ({
                   ? groupInfo?.members?.filter(
                       (member) => member._id !== session?.user?._doc._id
                     )[0]?.quote
-                  : "Loading..."}
+                  : <Skeleton variant="text" width="100px" />}
               </Typography>
             </>
           )}

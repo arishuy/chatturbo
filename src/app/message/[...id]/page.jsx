@@ -1,7 +1,6 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { theme } from "../../../theme";
-import { Grid } from "@mui/material";
 import {
   Box,
   Avatar,
@@ -9,6 +8,7 @@ import {
   Divider,
   Stack,
   AvatarGroup,
+  Skeleton
 } from "@mui/material";
 import DuoOutlinedIcon from "@mui/icons-material/DuoOutlined";
 import CallOutlinedIcon from "@mui/icons-material/CallOutlined";
@@ -16,8 +16,6 @@ import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 import TextSnippetOutlinedIcon from "@mui/icons-material/TextSnippetOutlined";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useRef } from "react";
 import GroupBody from "@/components/chat/GroupBody";
 import GroupInfo from "@/components/chat/GroupInfo";
 import AvatarOnline from "@/components/chat/AvatarOnline";
@@ -42,31 +40,34 @@ const Page = () => {
       setGroupInfo(data);
     });
   }, []);
+
   return (
     <>
       <title>Message</title>
-      <Grid
-        container
-        sx={{
+      <div
+        style={{
           background: theme.palette.background.paper,
           height: "100vh",
           maxHeight: "100vh",
           overflowX: "hidden",
           overflowY: "hidden",
+          display: "grid",
+          gridTemplateColumns: "5fr 2px 2fr",
+          gridTemplateRows: "1fr",
+          gridTemplateAreas: "'main divider sidebar'",
         }}
       >
-        <Grid
-          item
-          xs={12}
-          md={9}
-          lg={9}
-          sx={{
+        <div
+          style={{
             borderRight: "rgba(145, 158, 171, 0.24) solid",
             borderWidth: "1px",
+            gridArea: "main",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
-          <Box
-            sx={{
+          <div
+            style={{
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
@@ -75,7 +76,7 @@ const Page = () => {
           >
             <Stack
               direction={"row"}
-              sx={{
+              style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -93,7 +94,7 @@ const Page = () => {
                     : ""
                 }
               />
-              <Typography variant="h6" sx={{ paddingLeft: "20px" }}>
+              <Typography variant="h6" style={{ paddingLeft: "20px" }}>
                 {groupInfo
                   ? isGroup.current
                     ? groupInfo?.name
@@ -104,44 +105,57 @@ const Page = () => {
                       groupInfo?.members?.filter(
                         (member) => member._id !== session?.user?._doc._id
                       )[0]?.surname
-                  : "Loading..."}
+                  : <Skeleton variant="text" width="100px" />}
               </Typography>
             </Stack>
-            <Stack direction="row" sx={{ display: "flex", gap: "15px" }}>
-              <DuoOutlinedIcon fontSize="small" sx={{ opacity: "0.6" }} />
-              <CallOutlinedIcon fontSize="small" sx={{ opacity: "0.6" }} />
-              <ImageOutlinedIcon fontSize="small" sx={{ opacity: "0.6" }} />
+            <Stack direction="row" style={{ display: "flex", gap: "15px" }}>
+              <DuoOutlinedIcon fontSize="small" style={{ opacity: "0.6" }} />
+              <CallOutlinedIcon fontSize="small" style={{ opacity: "0.6" }} />
+              <ImageOutlinedIcon fontSize="small" style={{ opacity: "0.6" }} />
               <TextSnippetOutlinedIcon
                 fontSize="small"
-                sx={{ opacity: "0.7" }}
+                style={{ opacity: "0.7" }}
               />
             </Stack>
             {isGroup.current && (
               <AvatarGroup max={3}>
-                {
-                  groupInfo?.members?.map((member) => {
-                    return (
-                      <Avatar key={member._id}
-                  alt={member.name + " " + member.surname}
-                  src={member.avatar}
-                />
-                    )
-                
-                  })
-                }
+                {groupInfo?.members?.map((member) => (
+                  <Avatar
+                    key={member._id}
+                    alt={member.name + " " + member.surname}
+                    src={member.avatar}
+                  />
+                ))}
               </AvatarGroup>
             )}
-          </Box>
+          </div>
           <Divider />
-          <Box sx={{ maxHeight: "100vh", overflow: "auto" }}>
+          <div
+            style={{
+              maxHeight: "100vh",
+              overflow: "auto",
+              flexGrow: 1,
+            }}
+          >
             <GroupBody id={id} />
-          </Box>
-        </Grid>
-        <Divider />
-        <Grid item xs={12} md={3} lg={3}>
+          </div>
+        </div>
+        <div
+          style={{
+            gridArea: "divider",
+            backgroundColor: "rgba(0, 0, 0, 0.12)",
+          }}
+        />
+        <div
+          style={{
+            gridArea: "sidebar",
+            borderLeft: "rgba(145, 158, 171, 0.24) solid",
+            borderWidth: "1px",
+          }}
+        >
           <GroupInfo groupInfo={groupInfo} isGroup={isGroup.current} />
-        </Grid>
-      </Grid>
+        </div>
+      </div>
     </>
   );
 };
