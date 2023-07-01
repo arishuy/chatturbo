@@ -1,5 +1,7 @@
 import connect from '@/utils/db';
-import User from '@/models/user';
+import Group from "@/models/group";
+import User from "@/models/user";
+import Message from "@/models/message";
 import { NextResponse } from 'next/server';
 
 export const GET = async (req,  { params }) => {
