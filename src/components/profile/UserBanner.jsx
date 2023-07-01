@@ -180,7 +180,7 @@ const UserBanner = ({user}) => {
                         position: 'relative',
                         backgroundPosition: 'center',
                         backgroundImage:
-                            'linear-gradient(rgba(0, 75, 80, 0.8), rgba(0, 75, 80, 0.8)), url(https://images.pexels.com/photos/163036/mario-luigi-yoschi-figures-163036.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)',
+                            `url(${user?.cover_img})`,
                     }}
                 >
                     <Stack
