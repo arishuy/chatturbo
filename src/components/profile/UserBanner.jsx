@@ -444,7 +444,7 @@ const UserBanner = ({user}) => {
                         />
                     </TabPanel>
                     <TabPanel value={value} index={2}>
-                        <Friends />
+                        <Friends friends={user?.friends} />
                     </TabPanel>
                     <TabPanel value={value} index={3}>
                         <Gallery />
@@ -453,7 +453,7 @@ const UserBanner = ({user}) => {
             ) : (
                 <>
                     <TabPanel value={value} index={1}>
-                        <Friends />
+                        <Friends friends={user?.friends}/>
                     </TabPanel>
                     <TabPanel value={value} index={2}>
                         <Gallery />

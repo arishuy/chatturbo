@@ -1,24 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Grid, Card, Box, Typography, Link } from '@mui/material';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
 
-const Friends = () => {
-    const [friends, setFriends] = React.useState([]);
-    const { id } = useParams();
-    async function getFriends() {
-        const res = await fetch(`/api/friend/get/${id}`, {
-            method: 'GET',
-        });
-        const data = await res.json();
-        return data;
-    }
-
-    useEffect(() => {
-        getFriends().then((data) => {
-            setFriends(data);
-        });
-    }, []);
+const Friends = ({friends}) => {
     return (
         <div>
             <Typography
