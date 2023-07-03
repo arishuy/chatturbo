@@ -13,6 +13,6 @@ export const GET = async (req, { params }) => {
   }
   const messages = await Message.find({ recipientGroup: params.id })
     .sort({ createdAt: -1 }) 
-    .limit(50).populate("sender", { name: 1, surname: 1, avatar: 1 }).populate("recipient", { name: 1, surname: 1, avatar: 1 });
+    .limit(50).populate("sender", { name: 1, surname: 1, avatar: 1 }).populate("seenBy", { name: 1, surname: 1, avatar: 1 });
   return new NextResponse(JSON.stringify(messages.reverse()), { status: 200 });
 };

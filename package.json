@@ -24,6 +24,7 @@
     "emoji-picker-react": "^4.4.9",
     "eslint": "8.43.0",
     "eslint-config-next": "13.4.6",
+    "js-file-download": "^0.4.12",
     "lodash": "^4.17.21",
     "mongoose": "^7.3.1",
     "next": "^13.4.7",
