@@ -11,17 +11,18 @@ import { useEffect, useRef, useState } from 'react';
 import { Snackbar, Alert, Button } from '@mui/material';
 import ContactEmergencyRoundedIcon from '@mui/icons-material/ContactEmergencyRounded';
 import useResponsive from '@/hooks/useResponsive';
-import useTranslation from 'next-translate/useTranslation';
-import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
+import ArticleRoundedIcon from '@mui/icons-material/ArticleRounded';
+import SyncLockIcon from '@mui/icons-material/SyncLock';
+import PersonPinRoundedIcon from '@mui/icons-material/PersonPinRounded';
 import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
 import CollectionsRoundedIcon from '@mui/icons-material/CollectionsRounded';
 import { useSession } from 'next-auth/react';
 import Profile from './Profile';
-import Followers from './Followers';
 import Friends from './Friends';
 import Gallery from './Gallery';
 import { useParams } from 'next/navigation';
 import UpdateProfile from './UpdateProfile';
+import ChangePassword from './ChangePassword';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -302,7 +303,7 @@ const UserBanner = ({user}) => {
                             <Tab
                                 label={
                                     <div>
-                                        <ContactEmergencyRoundedIcon
+                                        <ArticleRoundedIcon
                                             sx={{ marginRight: '8px' }}
                                         />
                                         Posts
@@ -317,7 +318,7 @@ const UserBanner = ({user}) => {
                             <Tab
                                 label={
                                     <div>
-                                        <FavoriteRoundedIcon
+                                        <PersonPinRoundedIcon
                                             fontSize="medium"
                                             sx={{ marginRight: '8px' }}
                                         />
@@ -351,6 +352,19 @@ const UserBanner = ({user}) => {
                                     </div>
                                 }
                                 {...a11yProps(3)}
+                                sx={{ fontSize: !isMobile ? '16px' : '14px' }}
+                            />
+                            <Tab
+                                label={
+                                    <div>
+                                        <SyncLockIcon
+                                            fontSize="medium"
+                                            sx={{ marginRight: '8px' }}
+                                        />
+                                        Password
+                                    </div>
+                                }
+                                {...a11yProps(4)}
                                 sx={{ fontSize: !isMobile ? '16px' : '14px' }}
                             />
                         </Tabs>
@@ -448,6 +462,9 @@ const UserBanner = ({user}) => {
                     </TabPanel>
                     <TabPanel value={value} index={3}>
                         <Gallery />
+                    </TabPanel>
+                    <TabPanel value={value} index={4}>
+                        <ChangePassword />
                     </TabPanel>
                 </>
             ) : (
