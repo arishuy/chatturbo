@@ -45,7 +45,7 @@ export default async function Page () {
     const requestTo = await getRequestTo(session.user._doc._id).then(res => res.json());
   return (
     <div
-      style={{
+      style={{  
         width: "100%",
         marginLeft: "auto",
         marginRight: "auto",
