@@ -1,6 +1,7 @@
 import connect from "@/utils/db";
 import User from "@/models/user";
 import Group from "@/models/group";
+import LastSeen from '@/models/lastSeen';
 import Message from "@/models/message";
 import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
@@ -37,8 +38,17 @@ export const POST = async (req, {params}) => {
             recipientGroup: group._id,
             content: 'Now you can chat with your friend!',
         });
-        await Group.findByIdAndUpdate( group._id, {
-            latestMessage: newMessage._id 
-        })
+        const members = [myID, requestID];
+        const lastSeenPromises = members.map((member) => {
+            return LastSeen.create({
+              user: member,
+              message: newMessage._id,
+            });
+          });
+          const lastSeen = await Promise.all(lastSeenPromises);
+          await Group.findByIdAndUpdate(group._id, {
+            latestMessage: newMessage._id,
+            lastSeen: lastSeen.map((seen) => seen._id),
+          });
         return new NextResponse('Accept Successfully', { status: 200 });
 };

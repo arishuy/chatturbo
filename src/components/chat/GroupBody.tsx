@@ -34,8 +34,7 @@ const GroupBody = ({ id }: GroupBodyProps) => {
     const messages = await fetch(`/api/group/${id}/seen`, {
       method: "POST",
     });
-    const data = await messages.json();
-    return data;
+    return messages;
   }
   const scrollToMenu = (ref: any) => {
     setImmediate(() => ref.current.scrollIntoView({behavior: "smooth",inline: "center", }));
@@ -66,10 +65,15 @@ const GroupBody = ({ id }: GroupBodyProps) => {
       scrollToMenu(bottomRef);
     };
     const updatedMessageHandler = (newMessage: any) => {
+      console.log(newMessage);
       setInitialMessages((current : any) =>
         current.map((currentMessage:any) => {
-          if (currentMessage._id === newMessage._id) {
-            return newMessage;
+          if (currentMessage._id === newMessage.updatedMessage._id) {
+            return newMessage.updatedMessage;
+          }
+          if (currentMessage._id === newMessage.beforeSeen._id)
+          {
+            return newMessage.beforeSeen;
           }
           return currentMessage;
         })
