@@ -140,7 +140,7 @@ const UserBanner = ({user}) => {
     if (user?.waitingRequestFriends.includes(session?.user?._doc?._id)) {
         isAcceptRequest.current = true;
     }
-    if (user?.friends.includes(session?.user?._doc?._id)) {
+    if (session?.user?._doc?.friends?.includes(user?._id)) {
         isFriend.current = true;
     }
     return (
