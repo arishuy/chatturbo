@@ -1,6 +1,5 @@
 'use client';
 import React, { useState } from 'react';
-import { makeStyles } from '@mui/styles';
 import {
     Typography,
     TextField,
@@ -13,32 +12,9 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import Image from 'next/image';
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexDirection: 'column',
-        padding: theme.spacing(3),
-        maxHeight: '100vh',
-        overflow: 'auto',
-    },
-    title: {
-        marginBottom: theme.spacing(2),
-    },
-    searchInput: {
-        marginBottom: theme.spacing(2),
-    },
-    searchButton: {
-        marginBottom: theme.spacing(2),
-    },
-    results: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-}));
+import {theme} from '@/theme';
 
 const SearchPeople = () => {
-    const classes = useStyles();
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
 
@@ -52,8 +28,15 @@ const SearchPeople = () => {
         setSearchResults(data);
     };
     return (
-        <div className={classes.root}>
-            <Typography variant="h4" className={classes.title}>
+        <div style={{
+            flexDirection: 'column',
+        padding: theme.spacing(3),
+        maxHeight: '100vh',
+        overflow: 'auto',
+        }}>
+            <Typography variant="h4" sx={{
+                marginBottom: theme.spacing(2),
+            }}>
                 Find Someone
             </Typography>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -87,7 +70,11 @@ const SearchPeople = () => {
                     />
                 </FormControl>
             </div>
-            <div className={classes.results}>
+            <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}>
                 <Typography
                     variant="h5"
                     component="div"
