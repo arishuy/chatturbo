@@ -53,7 +53,7 @@ const App: React.FC<CalendarProps> = ({ reminders }) => {
     return (
       <ul className="events h-full max-h-full">
         {listData.map((item) => (
-          <ReminderCard reminder={item} />
+          <ReminderCard key={item._id} reminder={item} />
         ))}
       </ul>
     );

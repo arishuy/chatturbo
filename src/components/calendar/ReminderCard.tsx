@@ -16,7 +16,7 @@ interface ReminderCardProps {
     reminder: ReminderInfoType
 }
 
-const reminderCard = ({ reminder }: ReminderCardProps) => {
+const ReminderCard = ({ reminder }: ReminderCardProps) => {
   const [textColor, setTextColor] = React.useState<string>(`text-${reminder.color}-700`);
   const { data: session } = useSession();
   const router = useRouter();
@@ -116,4 +116,4 @@ const reminderCard = ({ reminder }: ReminderCardProps) => {
   );
 }
 
-export default reminderCard
+export default ReminderCard
