@@ -12,13 +12,14 @@ import { ReminderInfoType } from './Calendar';
 import { useSession } from 'next-auth/react';
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import { useRouter } from 'next/navigation';
+import { theme} from '@/theme'
 interface ReminderCardProps {
     reminder: ReminderInfoType
 }
 
 const ReminderCard = ({ reminder }: ReminderCardProps) => {
-  const [textColor, setTextColor] = React.useState<string>(`text-${reminder.color}-700`);
   const { data: session } = useSession();
+  const color = theme.palette.reminder[reminder.color];
   const router = useRouter();
   const startTime = new Date(reminder.startTime);
   const start = startTime.toLocaleTimeString([], {
@@ -30,7 +31,6 @@ const ReminderCard = ({ reminder }: ReminderCardProps) => {
      hour: "numeric",
      minute: "2-digit",
    });
-  console.log(textColor)
   const handleDelete = async () => {
     const response = await fetch(`/api/reminder/delete/${reminder._id}`, {
       method: "DELETE",
@@ -39,7 +39,6 @@ const ReminderCard = ({ reminder }: ReminderCardProps) => {
       },
     });
     const res = await response.json();
-    console.log(res);
     if (res.success) {
       router.refresh();
     }
@@ -47,12 +46,13 @@ const ReminderCard = ({ reminder }: ReminderCardProps) => {
   return (
     <div
       key={reminder._id}
-      className={`!bg-${reminder.color}-100 h-full mb-2.5`}
+      className="h-full mb-2.5"
       style={{
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-bewteen",
         borderRadius: "10px",
+        backgroundColor: color,
       }}
     >
        <ListItemText
@@ -61,21 +61,21 @@ const ReminderCard = ({ reminder }: ReminderCardProps) => {
     <>
       <Typography
         variant="h4"
-        className={textColor}
-        sx={{ fontSize: '14px' }}
+        sx={{ fontSize: '14px',
+        color: reminder.color,
+       }}
       >
         {reminder.title}
       </Typography>
       <Typography
-        className={textColor}
-        sx={{ opacity: '0.5', fontSize: '12px' }}
+        sx={{ opacity: '0.5', fontSize: '12px', color: reminder.color }}
       >
         {reminder.creator === session?.user._doc._id ? 'by me' : ''}
       </Typography>
     </>
   }
   secondary={
-    <Typography className={textColor} sx={{ opacity: '0.5', fontSize: '12px' }}>
+    <Typography  sx={{ opacity: '0.5', fontSize: '12px', color: reminder.color}}>
       {start + ' - ' + end}
     </Typography>
   }

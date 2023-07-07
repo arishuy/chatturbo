@@ -24,7 +24,6 @@ export default async function Page() {
   const myReminders = (await getReminders(id).then((res) =>
     res.json()
   )) as ReminderInfoType[];
-  console.log(myReminders);
   return (
     <div>
       <title> Reminder </title>

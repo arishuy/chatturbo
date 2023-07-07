@@ -70,6 +70,16 @@ const ERROR = {
   contrastText: '#fff',
 };
 
+const REMINDER = {
+	red: ' rgb(254 226 226)',
+	orange: 'rgb(254 242 226)',
+	gold: 'rgb(254 250 226)',
+	green: 'rgb(226 254 226)',
+	blue: 'rgb(226 254 250)',
+	violet: 'rgb(242 226 254)',
+	darksalmon: 'rgb(250 240 246)',
+}
+
 const palette = {
 	common: { black: "#000", white: "#fff" },
 	primary: PRIMARY,
@@ -79,6 +89,7 @@ const palette = {
 	warning: WARNING,
 	error: ERROR,
 	grey: GREY,
+	reminder: REMINDER,
 	divider: alpha(GREY[500], 0.24),
 	text: {
 		primary: GREY[700],

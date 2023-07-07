@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState} from "react";
 import { Button } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RootModal from "../../components/modals/RootModal";
@@ -34,6 +34,7 @@ interface NewReminderProps {
 }
 
 const NewReminder = ({ groupId }: NewReminderProps) => {
+  const [selectedColor, setSelectedColor] = useState("");
   const [open, setOpen] = React.useState(false);
   const [startTimevalue, setstartTimevalue] = React.useState<Dayjs | null>(
     dayjs("2022-04-17T15:30")
@@ -61,8 +62,8 @@ const NewReminder = ({ groupId }: NewReminderProps) => {
     if (reminderInfo.current) {
       reminderInfo.current.color = color;
     }
+    setSelectedColor(color);
   };
-
   const handleOk = async () => {
     if (reminderInfo.current) {
       reminderInfo.current.startDateTime = value?.toDate() as Date;
@@ -90,22 +91,9 @@ const NewReminder = ({ groupId }: NewReminderProps) => {
       // setOpen(true);
     }
   };
-
+  const active = "border-2 border-black transition duration-500 ease-in-out"
   return (
     <>
-      {/* <Snackbar
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "right",
-        }}
-        open={open}
-        autoHideDuration={3000}
-        onClose={handleClose}
-      >
-        <Alert variant="filled" severity="success" sx={{ width: "100%" }}>
-          {message}
-        </Alert>
-      </Snackbar> */}
       <Button onClick={handleOpen} sx={{ minWidth: "0px" }}>
         <TextSnippetOutlinedIcon fontSize="small" style={{ opacity: "0.7" }} />
       </Button>
@@ -130,36 +118,48 @@ const NewReminder = ({ groupId }: NewReminderProps) => {
           <div className="flex mt-4 ml-2">
             <Typography>Color</Typography>
             <Stack direction="row" spacing={1} sx={{ marginLeft: "15px" }}>
-              <div
-                className="bg-red-400 w-6 h-6 rounded-full"
-                onClick={() => {
-                  handleClickColor("red");
-                }}
-              ></div>
-              <div
-                className="bg-orange-400 w-6 h-6 rounded-full"
-                onClick={() => handleClickColor("orange")}
-              ></div>
-              <div
-                className="bg-yellow-400 w-6 h-6 rounded-full"
-                onClick={() => handleClickColor("yellow")}
-              ></div>
-              <div
-                className="bg-green-400 w-6 h-6 rounded-full"
-                onClick={() => handleClickColor("green")}
-              ></div>
-              <div
-                className="bg-cyan-400 w-6 h-6 rounded-full"
-                onClick={() => handleClickColor("cyan")}
-              ></div>
-              <div
-                className="bg-violet-400 w-6 h-6 rounded-full"
-                onClick={() => handleClickColor("violet")}
-              ></div>
-              <div
-                className="bg-pink-400 w-6 h-6 rounded-full"
-                onClick={() => handleClickColor("pink")}
-              ></div>
+            <div
+        className={`bg-red-400 w-6 h-6 rounded-full cursor-pointer  ${
+          selectedColor === 'red' ? active : ''
+        }`}
+        onClick={() => handleClickColor('red')}
+      ></div>
+      <div
+        className={`bg-orange-400 w-6 h-6 rounded-full cursor-pointer ${
+          selectedColor === 'orange' ? active : ''
+        }`}
+        onClick={() => handleClickColor('orange')}
+      ></div>
+      <div
+        className={`bg-yellow-400 w-6 h-6 rounded-full cursor-pointer ${
+          selectedColor === 'gold' ? active : ''
+        }`}
+        onClick={() => handleClickColor('gold')}
+      ></div>
+      <div
+        className={`bg-green-400 w-6 h-6 rounded-full cursor-pointer ${
+          selectedColor === 'green' ? active : ''
+        }`}
+        onClick={() => handleClickColor('green')}
+      ></div>
+      <div
+        className={`bg-cyan-400 w-6 h-6 rounded-full cursor-pointer ${
+          selectedColor === 'blue' ? active : ''
+        }`}
+        onClick={() => handleClickColor('blue')}
+      ></div>
+      <div
+        className={`bg-violet-400 w-6 h-6 rounded-full cursor-pointer ${
+          selectedColor === 'violet' ? active : ''
+        }`}
+        onClick={() => handleClickColor('violet')}
+      ></div>
+      <div
+        className={`bg-pink-400 w-6 h-6 rounded-full cursor-pointer ${
+          selectedColor === 'darksalmon' ? active : ''
+        }`}
+        onClick={() => handleClickColor('darksalmon')}
+      ></div>
             </Stack>
           </div>
           <div className="flex mt-4 ml-2 items-center">
