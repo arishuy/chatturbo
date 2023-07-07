@@ -15,7 +15,22 @@ export const POST = async (req) => {
   const myId = session.sub;
   const body = await req.json();
   const { title, description, startDateTime, startTime, endTime, color, group } = body;
-  const reminder = await Reminder.create({
+  if (group == "") {
+    const reminder = await Reminder.create({
+      creator: myId,
+      title,
+      description,
+      startDateTime,
+      startTime,
+      endTime,
+      color,
+      group: null
+  });
+  return new NextResponse(JSON.stringify(reminder), { status: 200 });
+  }
+  else 
+  {
+    const reminder = await Reminder.create({
       creator: myId,
       title,
       description,
@@ -26,4 +41,5 @@ export const POST = async (req) => {
       group
   });
   return new NextResponse(JSON.stringify(reminder), { status: 200 });
+  }
 };
