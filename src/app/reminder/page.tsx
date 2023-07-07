@@ -8,7 +8,7 @@ import Reminder from "@/models/reminder";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
-import { ReminderInfoType }  from "../../components/calendar/Calendar";
+import { ReminderInfoType } from "../../components/calendar/Calendar";
 
 async function getReminders(id: any) {
   await connect();
@@ -16,19 +16,33 @@ async function getReminders(id: any) {
   const myReminders = await Reminder.find({
     $or: [{ creator: id }, { group: { $in: myGroupIds } }],
   })
+    .populate({
+      path: "group",
+      populate: {
+        path: "members",
+        select: "avatar",
+      },
+    })
+    .exec();
   return new NextResponse(JSON.stringify(myReminders), { status: 200 });
 }
 export default async function Page() {
-    const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
   const id = session.user.sub;
   const myReminders = (await getReminders(id).then((res) =>
     res.json()
   )) as ReminderInfoType[];
   return (
-    <div>
+    <div
+      style={{
+        maxHeight: "100vh",
+        overflowX: "hidden",
+        overflowY: "auto",
+      }}
+    >
       <title> Reminder </title>
       <div>
-        <NewReminder groupId={""}/>
+        <NewReminder groupId={""} />
       </div>
       <div>
         <Calendar reminders={myReminders} />

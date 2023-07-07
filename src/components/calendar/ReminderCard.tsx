@@ -1,5 +1,5 @@
-"use client"
-import React from 'react'
+"use client";
+import React from "react";
 import {
   Stack,
   Typography,
@@ -8,13 +8,13 @@ import {
   ListItemText,
   Button,
 } from "@mui/material";
-import { ReminderInfoType } from './Calendar';
-import { useSession } from 'next-auth/react';
+import { ReminderInfoType } from "./Calendar";
+import { useSession } from "next-auth/react";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import { useRouter } from 'next/navigation';
-import { theme} from '@/theme'
+import { useRouter } from "next/navigation";
+import { theme } from "@/theme";
 interface ReminderCardProps {
-    reminder: ReminderInfoType
+  reminder: ReminderInfoType;
 }
 
 const ReminderCard = ({ reminder }: ReminderCardProps) => {
@@ -26,11 +26,11 @@ const ReminderCard = ({ reminder }: ReminderCardProps) => {
     hour: "numeric",
     minute: "2-digit",
   });
-   const endTime = new Date(reminder.endTime);
-   const end = endTime.toLocaleTimeString([], {
-     hour: "numeric",
-     minute: "2-digit",
-   });
+  const endTime = new Date(reminder.endTime);
+  const end = endTime.toLocaleTimeString([], {
+    hour: "numeric",
+    minute: "2-digit",
+  });
   const handleDelete = async () => {
     const response = await fetch(`/api/reminder/delete/${reminder._id}`, {
       method: "DELETE",
@@ -55,31 +55,31 @@ const ReminderCard = ({ reminder }: ReminderCardProps) => {
         backgroundColor: color,
       }}
     >
-       <ListItemText
-  sx={{ marginLeft: '15px' }}
-  primary={
-    <>
-      <Typography
-        variant="h4"
-        sx={{ fontSize: '14px',
-        color: reminder.color,
-       }}
-      >
-        {reminder.title}
-      </Typography>
-      <Typography
-        sx={{ opacity: '0.5', fontSize: '12px', color: reminder.color }}
-      >
-        {reminder.creator === session?.user._doc._id ? 'by me' : ''}
-      </Typography>
-    </>
-  }
-  secondary={
-    <Typography  sx={{ opacity: '0.5', fontSize: '12px', color: reminder.color}}>
-      {start + ' - ' + end}
-    </Typography>
-  }
-/>
+      <ListItemText
+        sx={{ marginLeft: "15px" }}
+        primary={
+          <>
+            <Typography
+              variant="h4"
+              sx={{ fontSize: "14px", color: reminder.color }}
+            >
+              {reminder.title}
+            </Typography>
+            <Typography
+              sx={{ opacity: "0.5", fontSize: "12px", color: reminder.color }}
+            >
+              {reminder.creator === session?.user._doc._id ? "by me" : ""}
+            </Typography>
+          </>
+        }
+        secondary={
+          <Typography
+            sx={{ opacity: "0.5", fontSize: "12px", color: reminder.color }}
+          >
+            {start + " - " + end}
+          </Typography>
+        }
+      />
       <Stack
         sx={{
           paddingLeft: "5px",
@@ -88,32 +88,28 @@ const ReminderCard = ({ reminder }: ReminderCardProps) => {
           justifyContent: "space-between",
         }}
       >
-       <AvatarGroup
-          total={5}
+        <AvatarGroup
+          max={4}
           sx={{
-            "& .css-fjw5v6-MuiAvatar-root-MuiAvatarGroup-avatar": {
+            "& .MuiAvatar-root": {
               width: "20px",
               height: "20px",
               fontSize: "10px",
             },
           }}
         >
-          <Avatar alt="Remy Sharp" src="" sx={{ width: 20, height: 20 }} />
-          <Avatar alt="Travis Howard" src="" sx={{ width: 20, height: 20 }} />
-          <Avatar alt="Agnes Walker" src="" sx={{ width: 20, height: 20 }} />
-          <Avatar
-            alt="Trevor Henderson"
-            src=""
-            sx={{ width: 20, height: 20 }}
-          />
+          {reminder.group?.members.map((member: any) => (
+            <Avatar key={member._id} alt="Remy Sharp" src={member.avatar} sx={{ width: 20, height: 20 }} />)
+          )}
         </AvatarGroup>
-        <Button onClick ={handleDelete}>
-          <DeleteOutlineOutlinedIcon sx={{ width: 16, height: 16 }}
-           />
+        <Button onClick={handleDelete}>
+          <DeleteOutlineOutlinedIcon
+            sx={{ width: 16, height: 16, color: reminder.color }}
+          />
         </Button>
       </Stack>
     </div>
   );
-}
+};
 
-export default ReminderCard
+export default ReminderCard;
