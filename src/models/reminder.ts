@@ -11,7 +11,9 @@ const ReminderSchema = new Schema(
         title: { type: String, trim: true },
         description: { type: String, trim: true },
         startDateTime: { type: Date, default: Date.now },
-        endDateTime: { type: Date, default: Date.now },
+        startTime: { type: Date, trim: true },
+        endTime: { type: Date, trim: true },
+        color: { type: String, trim: true },
         group: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Group",

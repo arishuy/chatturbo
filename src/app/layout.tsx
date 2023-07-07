@@ -7,8 +7,8 @@ import Layout from '@/layouts';
 import { SessionProvider } from "next-auth/react";
 import { usePathname } from 'next/navigation'
 import { ProSidebarProvider } from "react-pro-sidebar";
-import Head from 'next/head';
-
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 
 const poppins = Poppins({
@@ -16,8 +16,6 @@ const poppins = Poppins({
   subsets: ['latin'],
   display: "swap",
 });
-
-
 
 export default function RootLayout({
   children, session
@@ -31,9 +29,9 @@ export default function RootLayout({
       <html lang="en">
         <body className={poppins.className}>
           <SessionProvider session={session}>
-            <ThemeProvider>
-              {children}
-            </ThemeProvider>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <ThemeProvider>{children}</ThemeProvider>
+            </LocalizationProvider>
           </SessionProvider>
         </body>
       </html>
@@ -44,11 +42,13 @@ export default function RootLayout({
         <body className={poppins.className}>
           <SessionProvider session={session}>
             <ThemeProvider>
+               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <ProSidebarProvider>
                   <Layout>
                     {children}
                   </Layout>
-                </ProSidebarProvider>
+              </ProSidebarProvider>
+              </LocalizationProvider>
             </ThemeProvider>
           </SessionProvider>
         </body>

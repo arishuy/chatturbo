@@ -8,7 +8,8 @@ import {
   Divider,
   Stack,
   AvatarGroup,
-  Skeleton
+  Skeleton,
+  Button,
 } from "@mui/material";
 import DuoOutlinedIcon from "@mui/icons-material/DuoOutlined";
 import CallOutlinedIcon from "@mui/icons-material/CallOutlined";
@@ -19,6 +20,7 @@ import { useParams } from "next/navigation";
 import GroupBody from "@/components/chat/GroupBody";
 import GroupInfo from "@/components/chat/GroupInfo";
 import AvatarOnline from "@/components/chat/AvatarOnline";
+import NewReminder from "@/components/calendar/NewReminder";
 
 const Page = () => {
   const { data: session } = useSession();
@@ -95,27 +97,41 @@ const Page = () => {
                 }
               />
               <Typography variant="h6" style={{ paddingLeft: "20px" }}>
-                {groupInfo
-                  ? isGroup.current
-                    ? groupInfo?.name
-                    : groupInfo?.members?.filter(
-                        (member) => member._id !== session?.user?._doc._id
-                      )[0]?.name +
-                      " " +
-                      groupInfo?.members?.filter(
-                        (member) => member._id !== session?.user?._doc._id
-                      )[0]?.surname
-                  : <Skeleton variant="text" width="100px" />}
+                {groupInfo ? (
+                  isGroup.current ? (
+                    groupInfo?.name
+                  ) : (
+                    groupInfo?.members?.filter(
+                      (member) => member._id !== session?.user?._doc._id
+                    )[0]?.name +
+                    " " +
+                    groupInfo?.members?.filter(
+                      (member) => member._id !== session?.user?._doc._id
+                    )[0]?.surname
+                  )
+                ) : (
+                  <Skeleton variant="text" width="100px" />
+                )}
               </Typography>
             </Stack>
-            <Stack direction="row" style={{ display: "flex", gap: "15px" }}>
-              <DuoOutlinedIcon fontSize="small" style={{ opacity: "0.6" }} />
-              <CallOutlinedIcon fontSize="small" style={{ opacity: "0.6" }} />
-              <ImageOutlinedIcon fontSize="small" style={{ opacity: "0.6" }} />
-              <TextSnippetOutlinedIcon
+            <Stack direction="row" style={{ display: "flex" }}>
+              <Button sx={{ minWidth: "0px" }}>
+                <DuoOutlinedIcon fontSize="small" style={{ opacity: "0.6" }} />
+              </Button>
+              <Button sx={{ minWidth: "0px" }}>
+                <CallOutlinedIcon fontSize="small" style={{ opacity: "0.6" }} />
+              </Button>
+              <Button sx={{ minWidth: "0px" }}>
+                <ImageOutlinedIcon
+                  fontSize="small"
+                  style={{ opacity: "0.6" }}
+                />
+              </Button>
+              {/* <TextSnippetOutlinedIcon
                 fontSize="small"
                 style={{ opacity: "0.7" }}
-              />
+              /> */}
+              <NewReminder groupId={`${id}`}></NewReminder>
             </Stack>
             {isGroup.current && (
               <AvatarGroup max={3}>
