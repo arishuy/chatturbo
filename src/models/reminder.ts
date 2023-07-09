@@ -14,6 +14,13 @@ const ReminderSchema = new Schema(
         startTime: { type: Date, trim: true },
         endTime: { type: Date, trim: true },
         color: { type: String, trim: true },
+        location: { type: String, trim: true },
+        participants: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+            },
+        ],
         group: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Group",

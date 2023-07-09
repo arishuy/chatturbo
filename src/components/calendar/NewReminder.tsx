@@ -50,6 +50,7 @@ const NewReminder = ({ groupId }: NewReminderProps) => {
   const handleClose = () => setOpen(false);
   const reminderInfo = useRef<any>({
     title: "",
+    location: "",
     description: "",
     startDateTime: null,
     startTime: null,
@@ -76,6 +77,7 @@ const NewReminder = ({ groupId }: NewReminderProps) => {
       method: "POST",
       body: JSON.stringify({
         title: reminderInfo.current?.title,
+        location: reminderInfo.current?.location,
         description: reminderInfo.current?.description,
         startDateTime: reminderInfo.current?.startDateTime,
         startTime: reminderInfo.current?.startTime,
@@ -98,7 +100,7 @@ const NewReminder = ({ groupId }: NewReminderProps) => {
     <>
       <Button onClick={handleOpen} sx={{ minWidth: "0px" }}>
         {params === "/reminder" ? (
-          <Stack direction="row" spacing={1} sx={{gap: "10px"}}>
+          <Stack direction="row" spacing={1} sx={{ gap: "10px" }}>
             <AddCircleOutlineIcon fontSize="small" style={{ opacity: "0.7" }} />{" "}
             New reminder
           </Stack>
@@ -200,6 +202,18 @@ const NewReminder = ({ groupId }: NewReminderProps) => {
             />
           </Stack>
         </div>
+        <TextField
+          required
+          id="outlined-required"
+          label="Location"
+          fullWidth
+          sx={{ marginTop: "15px", marginLeft: "7px" }}
+          onChange={(e) => {
+            if (reminderInfo.current) {
+              reminderInfo.current.location = e.target.value;
+            }
+          }}
+        />
         <TextField
           required
           id="outlined-required"
