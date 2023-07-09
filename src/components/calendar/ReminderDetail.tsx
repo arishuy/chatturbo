@@ -16,7 +16,7 @@ import QueryBuilderOutlinedIcon from "@mui/icons-material/QueryBuilderOutlined";
 import DescriptionRoundedIcon from "@mui/icons-material/DescriptionRounded";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import RemoveCircleRoundedIcon from "@mui/icons-material/RemoveCircleRounded";
-import { ReminderInfoType } from "./Calendar";
+import { ReminderInfoType } from "./ReminderCard";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 interface ReminderDetailProps {

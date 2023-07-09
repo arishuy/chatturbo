@@ -8,7 +8,6 @@ import {
   ListItemText,
   Button,
 } from "@mui/material";
-import { ReminderInfoType } from "./Calendar";
 import { useSession } from "next-auth/react";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import { useRouter } from "next/navigation";
@@ -18,7 +17,19 @@ import { Popover } from "antd";
 interface ReminderCardProps {
   reminder: ReminderInfoType;
 }
-
+export type ReminderInfoType = {
+  _id: any;
+  creator: string;
+  title: string;
+  description: string;
+  startDateTime: Date;
+  startTime: Date;
+  endTime: Date;
+  color: string;
+  location: string;
+  participants: any;
+  group: any;
+};
 const ReminderCard = ({ reminder }: ReminderCardProps) => {
   const { data: session } = useSession();
   const color = theme.palette.reminder[reminder.color];

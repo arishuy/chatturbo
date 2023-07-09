@@ -8,7 +8,7 @@ import Reminder from "@/models/reminder";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
-import { ReminderInfoType } from "@/components/calendar/Calendar";
+import { ReminderInfoType } from "@/components/calendar/ReminderCard";
 
 async function getReminders(id: any) {
   try {
