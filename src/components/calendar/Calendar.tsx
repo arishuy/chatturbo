@@ -2,7 +2,6 @@
 import React from "react";
 import { Calendar } from "antd";
 import ReminderCard from "./ReminderCard";
-
 import type { Dayjs } from "dayjs";
 import type { CellRenderInfo } from "rc-picker/lib/interface";
 import dayjs from "dayjs";
@@ -63,7 +62,6 @@ const ReminderCld: React.FC<CalendarProps> = ({ reminders }) => {
 
   const cellRender = (current: Dayjs, info: CellRenderInfo<Dayjs>) => {
     if (info.type === "date") return dateCellRender(current);
-    if (info.type === "month") return monthCellRender(current);
     return info.originNode;
   };
 

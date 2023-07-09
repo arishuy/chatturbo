@@ -3,32 +3,18 @@ import React, { useState } from "react";
 import { Button } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RootModal from "../../components/modals/RootModal";
-import Snackbar from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { TimeField } from "@mui/x-date-pickers/TimeField";
 import dayjs, { Dayjs } from "dayjs";
-import { useSession } from "next-auth/react";
 import { useRef } from "react";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { useRouter } from "next/navigation";
 import TextSnippetOutlinedIcon from "@mui/icons-material/TextSnippetOutlined";
 import { usePathname } from "next/navigation";
-
-type ReminderInfoType = {
-  title: string;
-  description: string;
-  startDateTime: Date;
-  startTime: Date;
-  endTime: Date;
-  color: string;
-  group: string;
-};
 
 interface NewReminderProps {
   groupId: string | null;
@@ -58,8 +44,6 @@ const NewReminder = ({ groupId }: NewReminderProps) => {
     color: "",
     group: groupId,
   });
-
-  const message = "Reminder created successfully";
 
   const handleClickColor = (color: string) => {
     if (reminderInfo.current) {
