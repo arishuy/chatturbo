@@ -3,10 +3,11 @@ import React from "react";
 import type { BadgeProps } from "antd";
 import { Badge, Calendar } from "antd";
 import ReminderCard from "./ReminderCard";
-
 import type { Dayjs } from "dayjs";
 import type { CellRenderInfo } from "rc-picker/lib/interface";
 import dayjs from "dayjs";
+import { useState } from "react";
+
 
 
 const getMonthData = (value: Dayjs) => {
@@ -23,6 +24,8 @@ export type ReminderInfoType = {
   startTime: Date;
   endTime: Date;
   color: string;
+  location: string;
+  participants: any;
   group: any;
 };
 interface CalendarProps {
