@@ -1,66 +1,45 @@
-import Dashboard from '@/components/dashboard/Dashboard'
-import { getServerSession } from "next-auth/next"
-import { authOptions } from "../api/auth/[...nextauth]/route"
-import TopMessage from "@/components/dashboard/TopMessage"
-import Reminder from "@/components/dashboard/Reminder"
-import FriendRequest from "@/components/dashboard/FriendRequest"
-import RequestTo from "@/components/dashboard/RequestTo"
-import RandomPeople from "@/components/dashboard/RandomPeople"
-import connect from '@/utils/db';
-import User from '@/models/user';
-import Group from '@/models/group';
-import Message from '@/models/message';
-import { NextResponse } from 'next/server';
+import Calendar from "../../components/calendar/Calendar";
+import NewReminder from "../../components/calendar/NewReminder";
+import connect from "@/utils/db";
+import User from "@/models/user";
+import Group from "@/models/group";
+import Message from "@/models/message";
+import Reminder from "@/models/reminder";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../api/auth/[...nextauth]/route";
+import { NextResponse } from "next/server";
+import { ReminderInfoType } from "../../components/calendar/Calendar";
 
-
- async function getRandomPeople(id: string) {
+async function getReminders(id: any) {
   await connect();
-    const myUser = await User.findById(id);
-    // get 5 users not in friends list
-    const users = await User.aggregate([
-        { $match: { _id: { $nin: [...myUser.friends, id] } } },
-        { $sample: { size: 5 } }
-    ]);
-    return new NextResponse(JSON.stringify(users), { status: 200 });
+  const myGroupIds = await Group.find({ members: { $in: [id] } });
+  const myReminders = await Reminder.find({
+    $or: [{ creator: id }, { group: { $in: myGroupIds } }],
+  })
+    .populate("participants", {avatar: 1})
+  return new NextResponse(JSON.stringify(myReminders), { status: 200 });
 }
-async function getFriendRequest(id: string) {
-  await connect();
-    const myUser = await User.findById(id).populate('waitingAcceptedFriends');
-    return new NextResponse(JSON.stringify(myUser.waitingAcceptedFriends), {
-        status: 200,
-    });
-}
-async function getRequestTo(id: string) {
-  await connect();
-    const myUser = await User.findById(id).populate('waitingRequestFriends');
-    return new NextResponse(JSON.stringify(myUser.waitingRequestFriends), { status: 200 });
-}
-
-
-
-export default async function Page () {
+export default async function Page() {
   const session = await getServerSession(authOptions);
-    const randomPeople = await getRandomPeople(session.user._doc._id).then(res => res.json());
-    const friendRequest = await getFriendRequest(session.user._doc._id).then(res => res.json());
-    const requestTo = await getRequestTo(session.user._doc._id).then(res => res.json());
+  const id = session.user.sub;
+  const myReminders = (await getReminders(id).then((res) =>
+    res.json()
+  )) as ReminderInfoType[];
   return (
     <div
       style={{
-        width: "100%",
-        marginLeft: "auto",
-        marginRight: "auto",
-        maxWidth: "1200px",
-        paddingTop: "50px",
+        maxHeight: "100vh",
+        overflowX: "hidden",
+        overflowY: "auto",
       }}
     >
-      <title>Dashboard</title>
-      <Dashboard
-        TopMessage={<TopMessage />}
-        Reminder={<Reminder />}
-        RandomPeople={<RandomPeople randomPeople={randomPeople} />}
-        FriendRequest={<FriendRequest friendRequest={friendRequest} />}
-        RequestTo={<RequestTo requestTo={requestTo} />}
-      />
+      <title> Reminder </title>
+      <div>
+        <NewReminder groupId={""} />
+      </div>
+      <div>
+        <Calendar reminders={myReminders} />
+      </div>
     </div>
   );
 }
