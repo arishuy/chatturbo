@@ -14,17 +14,19 @@ export const POST = async (req) => {
   }
   const myId = session.sub;
   const body = await req.json();
-  const { title, description, startDateTime, startTime, endTime, color, group } = body;
+  const { title, description, startDateTime, startTime, endTime, color, group, location } = body;
   if (group == "") {
     const reminder = await Reminder.create({
       creator: myId,
       title,
+      location,
       description,
       startDateTime,
       startTime,
       endTime,
       color,
-      group: null
+      group: null,
+      participants: [myId]
   });
   return new NextResponse(JSON.stringify(reminder), { status: 200 });
   }
@@ -33,12 +35,14 @@ export const POST = async (req) => {
     const reminder = await Reminder.create({
       creator: myId,
       title,
+      location,
       description,
       startDateTime,
       startTime,
       endTime,
     color,
-      group
+      group,
+      participants: [myId]
   });
   return new NextResponse(JSON.stringify(reminder), { status: 200 });
   }

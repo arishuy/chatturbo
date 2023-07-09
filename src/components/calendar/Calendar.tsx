@@ -7,6 +7,8 @@ import ReminderCard from "./ReminderCard";
 import type { Dayjs } from "dayjs";
 import type { CellRenderInfo } from "rc-picker/lib/interface";
 import dayjs from "dayjs";
+import { useState } from "react";
+
 
 
 const getMonthData = (value: Dayjs) => {
@@ -23,12 +25,24 @@ export type ReminderInfoType = {
   startTime: Date;
   endTime: Date;
   color: string;
+  location: string;
+  participants: any;
   group: any;
 };
 interface CalendarProps {
   reminders: ReminderInfoType[];
 }
 const App: React.FC<CalendarProps> = ({ reminders }) => {
+  const [value, setValue] = useState(() => dayjs("2017-01-25"));
+  const [selectedValue, setSelectedValue] = useState(() => dayjs("2017-01-25"));
+   const onSelect = (newValue: Dayjs) => {
+     setValue(newValue);
+     setSelectedValue(newValue);
+   };
+
+   const onPanelChange = (newValue: Dayjs) => {
+     setValue(newValue);
+   };
   const getListData = (value: Dayjs) => {
     let listData: ReminderInfoType[] = [];
     reminders.forEach((reminder) => {
