@@ -6,8 +6,6 @@ import type { Dayjs } from "dayjs";
 import type { CellRenderInfo } from "rc-picker/lib/interface";
 import dayjs from "dayjs";
 
-
-
 const getMonthData = (value: Dayjs) => {
   if (value.month() === 8) {
     return 1394;
@@ -38,15 +36,6 @@ const ReminderCld: React.FC<CalendarProps> = ({ reminders }) => {
       }
     });
     return listData || [];
-  };
-  const monthCellRender = (value: Dayjs) => {
-    const num = getMonthData(value);
-    return num ? (
-      <div className="notes-month">
-        <section>{num}</section>
-        <span>Backlog number</span>
-      </div>
-    ) : null;
   };
 
   const dateCellRender = (value: Dayjs) => {

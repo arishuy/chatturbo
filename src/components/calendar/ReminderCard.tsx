@@ -24,7 +24,6 @@ const ReminderCard = ({ reminder }: ReminderCardProps) => {
   const color = theme.palette.reminder[reminder.color];
   const router = useRouter();
   const startTime = new Date(reminder.startTime);
-   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const start = startTime.toLocaleTimeString([], {
     hour: "numeric",
     minute: "2-digit",
@@ -34,15 +33,6 @@ const ReminderCard = ({ reminder }: ReminderCardProps) => {
     hour: "numeric",
     minute: "2-digit",
   });
-   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
-     setAnchorEl(event.currentTarget);
-   };
-
-   const handlePopoverClose = () => {
-     setAnchorEl(null);
-   };
-
-   const open = Boolean(anchorEl);
   const handleDelete = async () => {
     const response = await fetch(`/api/reminder/delete/${reminder._id}`, {
       method: "DELETE",
@@ -55,7 +45,6 @@ const ReminderCard = ({ reminder }: ReminderCardProps) => {
       router.refresh();
     }
   };
-   const id = open ? reminder._id : undefined;
   return (
     <>
       <Popover content={<ReminderDetail reminderdetail={reminder} startTime={start} endTime={end} />} trigger="click">
@@ -69,9 +58,6 @@ const ReminderCard = ({ reminder }: ReminderCardProps) => {
           borderRadius: "10px",
           backgroundColor: color,
         }}
-        aria-owns={open ? reminder._id : undefined}
-        aria-describedby={id}
-        onClick={handlePopoverOpen}
       >
         <ListItemText
           sx={{ marginLeft: "15px" }}

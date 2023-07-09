@@ -17,7 +17,7 @@ async function getReminders(id: any) {
     const myReminders = await Reminder.find({
       $or: [{ creator: id }, { group: { $in: myGroupIds } }],
     })
-      .populate("participants", {avatar: 1})
+      .populate("participants", {avatar: 1}).exec();
     return new NextResponse(JSON.stringify(myReminders), { status: 200 });
   }
   catch (err) {
