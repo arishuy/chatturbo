@@ -11,13 +11,18 @@ import { NextResponse } from "next/server";
 import { ReminderInfoType } from "../../components/calendar/Calendar";
 
 async function getReminders(id: any) {
-  await connect();
-  const myGroupIds = await Group.find({ members: { $in: [id] } });
-  const myReminders = await Reminder.find({
-    $or: [{ creator: id }, { group: { $in: myGroupIds } }],
-  })
-    .populate("participants", {avatar: 1})
-  return new NextResponse(JSON.stringify(myReminders), { status: 200 });
+  try {
+    await connect();
+    const myGroupIds = await Group.find({ members: { $in: [id] } });
+    const myReminders = await Reminder.find({
+      $or: [{ creator: id }, { group: { $in: myGroupIds } }],
+    })
+      .populate("participants", {avatar: 1})
+    return new NextResponse(JSON.stringify(myReminders), { status: 200 });
+  }
+  catch (err) {
+    return new NextResponse(err, { status: 500 });
+  }
 }
 export default async function Page() {
   const session = await getServerSession(authOptions);
@@ -43,4 +48,3 @@ export default async function Page() {
     </div>
   );
 }
-  
