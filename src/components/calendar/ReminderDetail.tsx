@@ -102,7 +102,7 @@ const ReminderDetail = ({ reminderdetail, startTime, endTime }: ReminderDetailPr
           }}
         >
           {reminderdetail.participants.map((participant: any) => (
-            <Avatar alt="Remy Sharp" src={participant.avatar} sx={{ width: 20, height: 20 }} />
+            <Avatar key={participant._id} alt="Remy Sharp" src={participant.avatar} sx={{ width: 20, height: 20 }} />
           ))}
         </AvatarGroup>
       </Stack>
