@@ -1,13 +1,11 @@
 "use client"
 import React from "react";
-import type { BadgeProps } from "antd";
-import { Badge, Calendar } from "antd";
+import { Calendar } from "antd";
 import ReminderCard from "./ReminderCard";
 
 import type { Dayjs } from "dayjs";
 import type { CellRenderInfo } from "rc-picker/lib/interface";
 import dayjs from "dayjs";
-import { useState } from "react";
 
 
 
@@ -32,17 +30,7 @@ export type ReminderInfoType = {
 interface CalendarProps {
   reminders: ReminderInfoType[];
 }
-const App: React.FC<CalendarProps> = ({ reminders }) => {
-  const [value, setValue] = useState(() => dayjs("2017-01-25"));
-  const [selectedValue, setSelectedValue] = useState(() => dayjs("2017-01-25"));
-   const onSelect = (newValue: Dayjs) => {
-     setValue(newValue);
-     setSelectedValue(newValue);
-   };
-
-   const onPanelChange = (newValue: Dayjs) => {
-     setValue(newValue);
-   };
+const ReminderCld: React.FC<CalendarProps> = ({ reminders }) => {
   const getListData = (value: Dayjs) => {
     let listData: ReminderInfoType[] = [];
     reminders.forEach((reminder) => {
@@ -82,4 +70,4 @@ const App: React.FC<CalendarProps> = ({ reminders }) => {
   return <Calendar cellRender={cellRender} />;
 };
 
-export default App;
+export default ReminderCld;

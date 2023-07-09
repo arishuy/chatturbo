@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import {
   AvatarGroup,
@@ -7,12 +8,9 @@ import {
   Avatar,
   ListItemButton,
   ListItemIcon,
-  IconButton,
-  Popover,
   ListItem,
   Button,
 } from "@mui/material";
-import InboxIcon from "@mui/icons-material/Inbox";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 import QueryBuilderOutlinedIcon from "@mui/icons-material/QueryBuilderOutlined";
 import DescriptionRoundedIcon from "@mui/icons-material/DescriptionRounded";
