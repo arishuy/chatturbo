@@ -1,10 +1,13 @@
 "use client"
 import React from "react";
-import { Calendar } from "antd";
+import type { BadgeProps } from "antd";
+import { Badge, Calendar } from "antd";
 import ReminderCard from "./ReminderCard";
+
 import type { Dayjs } from "dayjs";
 import type { CellRenderInfo } from "rc-picker/lib/interface";
 import dayjs from "dayjs";
+
 
 const getMonthData = (value: Dayjs) => {
   if (value.month() === 8) {
@@ -20,14 +23,12 @@ export type ReminderInfoType = {
   startTime: Date;
   endTime: Date;
   color: string;
-  location: string;
-  participants: any;
   group: any;
 };
 interface CalendarProps {
   reminders: ReminderInfoType[];
 }
-const ReminderCld: React.FC<CalendarProps> = ({ reminders }) => {
+const App: React.FC<CalendarProps> = ({ reminders }) => {
   const getListData = (value: Dayjs) => {
     let listData: ReminderInfoType[] = [];
     reminders.forEach((reminder) => {
@@ -36,6 +37,15 @@ const ReminderCld: React.FC<CalendarProps> = ({ reminders }) => {
       }
     });
     return listData || [];
+  };
+  const monthCellRender = (value: Dayjs) => {
+    const num = getMonthData(value);
+    return num ? (
+      <div className="notes-month">
+        <section>{num}</section>
+        <span>Backlog number</span>
+      </div>
+    ) : null;
   };
 
   const dateCellRender = (value: Dayjs) => {
@@ -51,10 +61,11 @@ const ReminderCld: React.FC<CalendarProps> = ({ reminders }) => {
 
   const cellRender = (current: Dayjs, info: CellRenderInfo<Dayjs>) => {
     if (info.type === "date") return dateCellRender(current);
+    if (info.type === "month") return monthCellRender(current);
     return info.originNode;
   };
 
   return <Calendar cellRender={cellRender} />;
 };
 
-export default ReminderCld;
+export default App;

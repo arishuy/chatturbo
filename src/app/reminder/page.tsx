@@ -1,5 +1,5 @@
-import Calendar from "../../components/calendar/Calendar";
-import NewReminder from "../../components/calendar/NewReminder";
+import Calendar from "@/components/calendar/Calendar";
+import NewReminder from "@/components/calendar/NewReminder";
 import connect from "@/utils/db";
 import User from "@/models/user";
 import Group from "@/models/group";
@@ -8,7 +8,7 @@ import Reminder from "@/models/reminder";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
-import { ReminderInfoType } from "../../components/calendar/Calendar";
+import { ReminderInfoType } from "@/components/calendar/Calendar";
 
 async function getReminders(id: any) {
   try {
