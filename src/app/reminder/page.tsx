@@ -21,7 +21,7 @@ async function getReminders(id: any) {
     return new NextResponse(JSON.stringify(myReminders), { status: 200 });
   }
   catch (err) {
-    return new NextResponse(err, { status: 500 });
+    return new NextResponse(JSON.stringify(err), { status: 500 });
   }
 }
 export default async function Page() {
