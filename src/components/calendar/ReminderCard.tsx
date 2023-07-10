@@ -124,12 +124,14 @@ const ReminderCard = ({ reminder }: ReminderCardProps) => {
                 sx={{ width: 20, height: 20 }}
               />
             ))}
-          </AvatarGroup>
-          <Button onClick={handleDelete}>
-            <DeleteOutlineOutlinedIcon
-              sx={{ width: 16, height: 16, color: reminder.color }}
-            />
-          </Button>
+            </AvatarGroup>
+            {reminder.creator === session?.user._doc._id &&
+              (<Button onClick={handleDelete} sx={{minWidth:0}}>
+                <DeleteOutlineOutlinedIcon
+                  sx={{ width: 16, height: 16, color: reminder.color }}
+                />
+              </Button>)
+            }
         </Stack>
       </div>
     </Popover>

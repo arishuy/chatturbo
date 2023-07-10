@@ -55,6 +55,10 @@ body {
   background: #1890FF;
   color: white;
 }
+.rce-mbox-time-block {
+  background: none !important;
+  color: #00000073 !important;
+}
 /* .rce-mbox-time.non-copiable{
  position: relative;
  top: -63px;

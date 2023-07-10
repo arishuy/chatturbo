@@ -227,9 +227,15 @@ const Group = () => {
                       name={isGroup ? group.name : friend[0]?.name + " " + friend[0]?.surname}
                       avatar={isGroup ? group.avatar : friend[0]?.avatar}
                       latestMessage={
-                        group.latestMessage?.sender === session?.user._doc._id
+                        group.latestMessage?.type === "photo" ?(
+                          group.latestMessage?.sender === session?.user._doc._id
+                          ? "You have sent a photo"
+                          : "Has sent a photo"
+                        ) : (
+                          group.latestMessage?.sender === session?.user._doc._id
                           ? "You: " + group.latestMessage?.content
                           : group.latestMessage?.content
+                        )
                       }
                       seenBy={group.latestMessage?.seenBy}
                       time={timeSince(new Date(group.latestMessage?.createdAt))}
