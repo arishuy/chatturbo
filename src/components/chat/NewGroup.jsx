@@ -55,7 +55,7 @@ const InputWrapper = styled("div")(
         ? "rgba(255,255,255,0.65)"
         : "rgba(0,0,0,.85)"
     };
-    height: 30px;
+    height: 50px;
     box-sizing: border-box;
     padding: 4px 6px;
     width: 0;
@@ -235,6 +235,15 @@ export default function CustomizedHook({handleOk, open, handleClose}) {
         closeOnly={false}
       >
         <Root>
+        <TextField
+            sx={{ marginBottom: "20px" }}
+            fullWidth
+            label="Group name"
+            variant="outlined"
+            onChange={(e) => {
+              name.current = e.target.value;
+            }}
+          />
           <div {...getRootProps()}>
             <InputWrapper
               ref={setAnchorEl}
@@ -274,15 +283,7 @@ export default function CustomizedHook({handleOk, open, handleClose}) {
               </div>
             ) : null}
           </div>
-          <TextField
-            sx={{ marginTop: "20px" }}
-            fullWidth
-            label="Group name"
-            variant="outlined"
-            onChange={(e) => {
-              name.current = e.target.value;
-            }}
-          />
+          
         </Root>
       </RootModal>
     );
