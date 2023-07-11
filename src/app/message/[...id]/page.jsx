@@ -42,6 +42,11 @@ const Page = () => {
       setGroupInfo(data);
     });
   }, []);
+  const updateData = () => {
+    getGroupInfo().then((data) => {
+      setGroupInfo(data);
+    });
+  };
 
   return (
     <>
@@ -169,7 +174,7 @@ const Page = () => {
             borderWidth: "1px",
           }}
         >
-          <GroupInfo groupInfo={groupInfo} isGroup={isGroup.current} />
+          <GroupInfo groupInfo={groupInfo} isGroup={isGroup.current} updateData={updateData} />
         </div>
       </div>
     </>
