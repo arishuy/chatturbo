@@ -17,6 +17,6 @@ export const DELETE = async (req, { params }) => {
   if (reminder.creator != session.sub) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
-  await reminder.findByIdAndDelete(params.id);
+  await Reminder.findByIdAndDelete(params.id);
     return new NextResponse(JSON.stringify({ success: true }), { status: 200 });
 };
