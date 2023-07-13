@@ -66,20 +66,29 @@ const Page = () => {
       >
         <div
           style={{
+            maxHeight: "100vh",
+            height: "100vh",
             borderRight: "rgba(145, 158, 171, 0.24) solid",
             borderWidth: "1px",
             gridArea: "main",
             display: "flex",
             flexDirection: "column",
+            position: "relative",
             background: groupInfo?.theme,
           }}
           >
           <div
             style={{
+              position: "absolute",
+              top: "0px",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
               padding: "20px 20px",
+              width: "100%",
+              zIndex: 1,
+              backgroundColor: "transparent",
+              backdropFilter: "blur(10px)",
             }}
             >
             <Stack
@@ -157,6 +166,7 @@ const Page = () => {
               maxHeight: "100vh",
               overflow: "auto",
               flexGrow: 1,
+              zIndex: 0,
             }}
           >
             <GroupBody id={id} />

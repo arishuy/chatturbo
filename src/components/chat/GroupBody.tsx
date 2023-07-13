@@ -118,12 +118,14 @@ const GroupBody = ({ id }: GroupBodyProps) => {
     <>
       <Box
         sx={{
-          height: "80vh",
+          height: "90vh",
           overflowY: "auto",
           overflowX: "hidden",
+          paddingTop: "100px",
         }}
       >
-        <Box>
+        <Box sx={{ 
+        }}>
           {initialMessages.map((message: any) => (
             <MessageCard
               key={message._id}
