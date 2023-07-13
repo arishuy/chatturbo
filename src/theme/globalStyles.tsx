@@ -12,11 +12,11 @@ export default function GlobalStyles() {
           boxSizing: "border-box",
           "&::-webkit-scrollbar": {
             width: "10px",
-            backgroundColor: "#F5F5F5",
+            backgroundColor: "transparent",
           },
           "&::-webkit-scrollbar-track": {
             webkitBoxShow: " inset 0 0 6px rgba(0,0,0,0.3)",
-            backgroundColor: "#F5F5F5",
+            backgroundColor: "transparent",
           },
           "&::-webkit-scrollbar-thumb": {
             backgroundColor: "#C4CDD5",
