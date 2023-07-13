@@ -35,6 +35,7 @@ export type GroupInfoProps = {
     avatar: string;
     quote: string;
   }[];
+  theme: string;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -53,6 +54,23 @@ const GroupInfo = ({
   const [openAddModal, setOpenAddModal] = React.useState(false);
   const [message, setMessage] = React.useState("");
   const name = React.useRef<string>("");
+  const active = "border-2 border-black transition duration-500 ease-in-out";
+  const handleClickColor = async (color: string) => {
+    const res = await fetch(`/api/group/${groupInfo._id}/changeTheme`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        theme: color, 
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (res.status === 200) {
+      setMessage('Theme changed successfully');
+      setOpen(true);
+      updateData();
+    }
+  };
   const handleUpload = async (result: any) => {
     const res = await fetch(`/api/group/${groupInfo._id}/changePhoto`, {
       method: 'PUT',
@@ -209,26 +227,166 @@ const GroupInfo = ({
       </Box>
       <Divider />
       {isGroup ? (
-        <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-          >
-          <Typography variant="h5">Members</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-            {groupInfo?.members?.map((member) => (
-              <Stack key={member._id} direction="row" spacing={2} sx={{
+        <>
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography variant="h5">Members</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              {groupInfo?.members?.map((member) => (
+                <Stack key={member._id} direction="row" spacing={2} sx={{
+                  padding: 1
+                }} >
+                  <Avatar alt="Remy Sharp" src={member.avatar} />
+                  <Typography variant="subtitle1" >{member.name} {member.surname}</Typography>
+                </Stack>
+              ))}
+            </AccordionDetails>
+          </Accordion>
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography variant="h5">Themes</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Stack direction="row" spacing={2} sx={{
                 padding: 1
               }} >
-                <Avatar alt="Remy Sharp" src={member.avatar} />
-                <Typography variant="subtitle1" >{member.name} {member.surname}</Typography>
+                <div
+                  className={`${groupInfo?.theme === "linear-gradient(129deg, #e0fce6 0%, #d8fdff 50%, #e7e0ff 100%)" ? active : ""
+                    }`}
+                  style={{
+                    background: "linear-gradient(129deg, #e0fce6 0%, #d8fdff 50%, #e7e0ff 100%)"
+                    , width: "50px", height: "50px", borderRadius: "10px"
+                  }} onClick={() =>
+                    handleClickColor("linear-gradient(129deg, #e0fce6 0%, #d8fdff 50%, #e7e0ff 100%)")
+                  }></div>
+                <div
+                  className={`${groupInfo?.theme === "linear-gradient(203.77deg, #dcd7f7 10%, #edd7dd 60%, #fff7f9 100%)" ? active : ""
+                    }`}
+                  style={{
+                    background: "linear-gradient(203.77deg, #dcd7f7 10%, #edd7dd 60%, #fff7f9 100%)"
+                    , width: "50px", height: "50px", borderRadius: "10px"
+                  }} onClick={() =>
+                    handleClickColor("linear-gradient(203.77deg, #dcd7f7 10%, #edd7dd 60%, #fff7f9 100%)")
+                  }></div>
+                <div
+                  className={`${groupInfo?.theme === "conic-gradient(from 195.47deg at 50% 50%, #ffffff 0%, #c6fff6 12%, #eafffc 24%, #c4e7ff 43%, #d1eeff 60%, #aae4ff 76%, #ffffff 100%)" ? active : ""
+                    }`}
+                  style={{
+                    background: "conic-gradient(from 195.47deg at 50% 50%, #ffffff 0%, #c6fff6 12%, #eafffc 24%, #c4e7ff 43%, #d1eeff 60%, #aae4ff 76%, #ffffff 100%)"
+                    , width: "50px", height: "50px", borderRadius: "10px"
+                  }} onClick={() =>
+                    handleClickColor("conic-gradient(from 195.47deg at 50% 50%, #ffffff 0%, #c6fff6 12%, #eafffc 24%, #c4e7ff 43%, #d1eeff 60%, #aae4ff 76%, #ffffff 100%)")
+                  }></div>
+                <div
+                  className={`${groupInfo?.theme === "repeating-linear-gradient(145.47deg, #bfe4ff 24%, #eaeff2 5%, #ceceff 55.07%, #dfd1f9 77%, #e6e3f5 93%, #eaeff2 100%)" ? active : ""
+                    }`}
+                  style={{
+                    background: "repeating-linear-gradient(145.47deg, #bfe4ff 24%, #eaeff2 5%, #ceceff 55.07%, #dfd1f9 77%, #e6e3f5 93%, #eaeff2 100%)"
+                    , width: "50px", height: "50px", borderRadius: "10px"
+                  }} onClick={() =>
+                    handleClickColor("repeating-linear-gradient(145.47deg, #bfe4ff 24%, #eaeff2 5%, #ceceff 55.07%, #dfd1f9 77%, #e6e3f5 93%, #eaeff2 100%)")
+                  }></div>
+                <div
+                  className={`${groupInfo?.theme === "linear-gradient(69deg, #e5e7eb 0%, #acefe1 30%, #c5e4f9 50%, #b4eee1 70%, #e5e7eb 100%)" ? active : ""
+                    }`}
+                  style={{
+                    background: "linear-gradient(69deg, #e5e7eb 0%, #acefe1 30%, #c5e4f9 50%, #b4eee1 70%, #e5e7eb 100%)"
+                    , width: "50px", height: "50px", borderRadius: "10px"
+                  }} onClick={() =>
+                    handleClickColor("linear-gradient(69deg, #e5e7eb 0%, #acefe1 30%, #c5e4f9 50%, #b4eee1 70%, #e5e7eb 100%)")
+                  }></div>
+                <div
+                  className={`${groupInfo?.theme === "linear-gradient(69deg, #ffc6cd 10%, #fecad0 35%, #f6dfe1 60%, #f6e5df 70%, #f6ecdd 80%, #e5e7eb 100%)" ? active : ""
+                    }`}
+                  style={{
+                    background: "linear-gradient(69deg, #ffc6cd 10%, #fecad0 35%, #f6dfe1 60%, #f6e5df 70%, #f6ecdd 80%, #e5e7eb 100%)"
+                    , width: "50px", height: "50px", borderRadius: "10px"
+                  }} onClick={() =>
+                    handleClickColor("linear-gradient(69deg, #ffc6cd 10%, #fecad0 35%, #f6dfe1 60%, #f6e5df 70%, #f6ecdd 80%, #e5e7eb 100%)")
+                  }></div>
               </Stack>
-            ))}
-        </AccordionDetails>
-      </Accordion>
-    ): null}
+            </AccordionDetails>
+          </Accordion>
+        </>
+      ) : 
+      <Accordion>
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls="panel1a-content"
+        id="panel1a-header"
+      >
+        <Typography variant="h5">Themes</Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Stack direction="row" spacing={2} sx={{
+          padding: 1
+        }} >
+          <div
+            className={`${groupInfo?.theme === "linear-gradient(129deg, #e0fce6 0%, #d8fdff 50%, #e7e0ff 100%)" ? active : ""
+              }`}
+            style={{
+              background: "linear-gradient(129deg, #e0fce6 0%, #d8fdff 50%, #e7e0ff 100%)"
+              , width: "50px", height: "50px", borderRadius: "10px"
+            }} onClick={() =>
+              handleClickColor("linear-gradient(129deg, #e0fce6 0%, #d8fdff 50%, #e7e0ff 100%)")
+            }></div>
+          <div
+            className={`${groupInfo?.theme === "linear-gradient(203.77deg, #dcd7f7 10%, #edd7dd 60%, #fff7f9 100%)" ? active : ""
+              }`}
+            style={{
+              background: "linear-gradient(203.77deg, #dcd7f7 10%, #edd7dd 60%, #fff7f9 100%)"
+              , width: "50px", height: "50px", borderRadius: "10px"
+            }} onClick={() =>
+              handleClickColor("linear-gradient(203.77deg, #dcd7f7 10%, #edd7dd 60%, #fff7f9 100%)")
+            }></div>
+          <div
+            className={`${groupInfo?.theme === "conic-gradient(from 195.47deg at 50% 50%, #ffffff 0%, #c6fff6 12%, #eafffc 24%, #c4e7ff 43%, #d1eeff 60%, #aae4ff 76%, #ffffff 100%)" ? active : ""
+              }`}
+            style={{
+              background: "conic-gradient(from 195.47deg at 50% 50%, #ffffff 0%, #c6fff6 12%, #eafffc 24%, #c4e7ff 43%, #d1eeff 60%, #aae4ff 76%, #ffffff 100%)"
+              , width: "50px", height: "50px", borderRadius: "10px"
+            }} onClick={() =>
+              handleClickColor("conic-gradient(from 195.47deg at 50% 50%, #ffffff 0%, #c6fff6 12%, #eafffc 24%, #c4e7ff 43%, #d1eeff 60%, #aae4ff 76%, #ffffff 100%)")
+            }></div>
+          <div
+            className={`${groupInfo?.theme === "repeating-linear-gradient(145.47deg, #bfe4ff 24%, #eaeff2 5%, #ceceff 55.07%, #dfd1f9 77%, #e6e3f5 93%, #eaeff2 100%)" ? active : ""
+              }`}
+            style={{
+              background: "repeating-linear-gradient(145.47deg, #bfe4ff 24%, #eaeff2 5%, #ceceff 55.07%, #dfd1f9 77%, #e6e3f5 93%, #eaeff2 100%)"
+              , width: "50px", height: "50px", borderRadius: "10px"
+            }} onClick={() =>
+              handleClickColor("repeating-linear-gradient(145.47deg, #bfe4ff 24%, #eaeff2 5%, #ceceff 55.07%, #dfd1f9 77%, #e6e3f5 93%, #eaeff2 100%)")
+            }></div>
+          <div
+            className={`${groupInfo?.theme === "linear-gradient(69deg, #e5e7eb 0%, #acefe1 30%, #c5e4f9 50%, #b4eee1 70%, #e5e7eb 100%)" ? active : ""
+              }`}
+            style={{
+              background: "linear-gradient(69deg, #e5e7eb 0%, #acefe1 30%, #c5e4f9 50%, #b4eee1 70%, #e5e7eb 100%)"
+              , width: "50px", height: "50px", borderRadius: "10px"
+            }} onClick={() =>
+              handleClickColor("linear-gradient(69deg, #e5e7eb 0%, #acefe1 30%, #c5e4f9 50%, #b4eee1 70%, #e5e7eb 100%)")
+            }></div>
+          <div
+            className={`${groupInfo?.theme === "linear-gradient(69deg, #ffc6cd 10%, #fecad0 35%, #f6dfe1 60%, #f6e5df 70%, #f6ecdd 80%, #e5e7eb 100%)" ? active : ""
+              }`}
+            style={{
+              background: "linear-gradient(69deg, #ffc6cd 10%, #fecad0 35%, #f6dfe1 60%, #f6e5df 70%, #f6ecdd 80%, #e5e7eb 100%)"
+              , width: "50px", height: "50px", borderRadius: "10px"
+            }} onClick={() =>
+              handleClickColor("linear-gradient(69deg, #ffc6cd 10%, #fecad0 35%, #f6dfe1 60%, #f6e5df 70%, #f6ecdd 80%, #e5e7eb 100%)")
+            }></div>
+        </Stack>
+      </AccordionDetails>
+    </Accordion>}
       {/* <Box>
       <ListItem sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography variant="h4">Reminders</Typography>
@@ -245,14 +403,14 @@ const GroupInfo = ({
           </Typography>
         </ListItem>
       </Box> */}
-      { openAddModal ? <AddMember
+      {openAddModal ? <AddMember
         handleClose={handleClose}
         open={openAddModal}
         handleOk={handleAddMember}
         groupInfo={groupInfo}
-        />: null }
-        
-      <RootModal 
+      /> : null}
+
+      <RootModal
         title="Change group name"
         variant="Edit"
         open={openModal}
@@ -261,13 +419,13 @@ const GroupInfo = ({
         closeOnly={false}
       >
         <TextField
-            fullWidth
-            label="Group name"
-            variant="outlined"
-            onChange={(e) => {
-              name.current = e.target.value;
-            }}
-          />
+          fullWidth
+          label="Group name"
+          variant="outlined"
+          onChange={(e) => {
+            name.current = e.target.value;
+          }}
+        />
       </RootModal>
     </>
   );

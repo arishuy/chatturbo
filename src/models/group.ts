@@ -21,7 +21,11 @@ const GroupSchema = new Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: "LastSeen",
       }
-    ]
+    ],
+    theme: { 
+      type: String,
+      default: "linear-gradient(129deg, #e0fce6 0%, #d8fdff 50%, #e7e0ff 100%)"
+    }
   },
 
   { timestamps: true }

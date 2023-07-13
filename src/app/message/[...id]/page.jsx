@@ -71,8 +71,9 @@ const Page = () => {
             gridArea: "main",
             display: "flex",
             flexDirection: "column",
+            background: groupInfo?.theme,
           }}
-        >
+          >
           <div
             style={{
               display: "flex",
@@ -80,7 +81,7 @@ const Page = () => {
               alignItems: "center",
               padding: "20px 20px",
             }}
-          >
+            >
             <Stack
               direction={"row"}
               style={{
