@@ -183,9 +183,14 @@ const Page = () => {
             gridArea: "sidebar",
             borderLeft: "rgba(145, 158, 171, 0.24) solid",
             borderWidth: "1px",
+            overflowY: "auto",
           }}
         >
-          <GroupInfo groupInfo={groupInfo} isGroup={isGroup.current} updateData={updateData} />
+          <GroupInfo
+            groupInfo={groupInfo}
+            isGroup={isGroup.current}
+            updateData={updateData}
+          />
         </div>
       </div>
     </>
